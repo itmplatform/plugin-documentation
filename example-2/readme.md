@@ -31,9 +31,9 @@ We already know how to configure that, and how to configure an email action.
 			"actions": [
 				{
 					"action": "email",
-					"to": "testuser@test.com",
-					"subject": "Purchase updated",
-					"body": "<html><h1>Purchase Actual amount exceeded Projected amount</h1></html>"
+					"to": "your.friend@itmplatform.com",
+					"subject": "Purchase actual value exceeds projected amount",
+					"body": "<html><p>The purchase actual value ({{input.purchase.ActualAmount}}) exceeds projected amount ({{input.purchase.ProjectedAmount}})</p></html>"
 				}
 			],
 			"async": true
