@@ -1,0 +1,1340 @@
+<script src="https://kit.fontawesome.com/81ab11011e.js" crossorigin="anonymous"></script>
+
+# Overview
+Plugins are extensions that add a specific feature to ITM Platform. They can be used to extend functionality or as a connector between ITM Platform and a third-party system.
+
+You can create your own custom plugins. This guide will help you get started and serve you as a reference when you become an expert.
+ 
+Each section of this guide is organized into three blocks: <i class="far fa-code" title="Learn by example"></i> **Learn by example**, <i class="fad fa-book-open" title="Guide"></i> **Guide**, and <i class="fad fa-brackets" title="Reference"></i> **Reference**.
+
+The <a href="#terminology">terminology</a> section will help you with the most commonly used terms.
+
+## Basic concepts
+
+- You can access the plugin section in ITM Platform on the CONFIGURATION <i class="fa-solid fa-caret-right"></i> OTHER SETTINGS menu. 
+- You need a Full Access license to operate on existing global plugins and edit or create existing ones. 
+- You can create and edit your own plugins in the "plugin editor" section, which will give you access to the plugin script. Notice that you can't edit global plugins.
+- A plugin script is a JSON file that follows a structure of instructions that will perform the functionality you need.
+- A plugin can be triggered based on time (scheduler) or specific ITM Platform events. For example, every day or when a purchase is updated.
+<!-- every day at 8 am: Verify we explain how to use the scheduler, I'm not clear on this -->
+- Once triggered, the plugin will initiate actions that can be chained to one another, forming a sequence of actions called features.
+- Once a plugin is ready, you can activate it.
+
+# Plugin script
+A plugin script is defined in a single JSON file, following this structure:
+
+1. <a href="#general">Plugin General Definition</a>
+1. <a href="#actions">Plugin Features and  Actions</a>
+1. <a href="#configuration">Plugin Configuration</a>
+1. [Plugin Mapping](#field-mapping)
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+    {
+        "name": "unique-identifier",
+        "svgString": "<svg></svg>",
+        "details": {},
+        "features": [{
+                "trigger": "scheduler",
+                "actions": [{}, {}]
+            }
+        ],
+        "config": [{}, {}],
+        "mapping": []
+    }
+```
+<a name="general"></a>
+
+## Plugin General Definition
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+<!-- Example when available -->
+```json
+    {
+        "name": "unique-name",
+        "svgString": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 384C305.4 384 340.6 353.2 361.4 323.4C363.1 319.8 368.1 318.9 372.6 321.4C376.2 323.1 377.1 328.1 374.6 332.6C352.1 364.6 312.7 400 255.1 400C199.3 400 159.9 364.6 137.4 332.6C134.9 328.1 135.8 323.1 139.4 321.4C143 318.9 148 319.8 150.6 323.4C171.4 353.2 206.6 384 255.1 384H256zM192.4 208C192.4 216.8 185.2 224 176.4 224C167.5 224 160.4 216.8 160.4 208C160.4 199.2 167.5 192 176.4 192C185.2 192 192.4 199.2 192.4 208zM320.4 208C320.4 199.2 327.5 192 336.4 192C345.2 192 352.4 199.2 352.4 208C352.4 216.8 345.2 224 336.4 224C327.5 224 320.4 216.8 320.4 208zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 16C123.5 16 16 123.5 16 256C16 388.5 123.5 496 256 496C388.5 496 496 388.5 496 256C496 123.5 388.5 16 256 16z"/></svg>',
+        "details": {
+            "title": {"en": "My Plugin","es": "Mi plugin","pt": "Meu plugin"},
+            "version": "0.8",
+            "shortDescription": {"en": "desc","es": "desc","pt": "desc"},
+            "longDescription":  {"en": "long desc","es": "long desc","pt": "long desc"},
+            "updated": "2022-05-25",
+            "developer": "developer-name"
+        }
+    }        
+```
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+The general definition will provide  basic information about the plugin you are building. The title, the short description, and the icon will appear on the plugin button within the plugin panel.
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+<!-- Reference here -->
+- `name`: It will be used as a identifier for the plugin and must be unique. It can't have spaces or special characters.
+- `svgString`: Inline SVG that will be used as the plugin icon.
+- `details`
+    - `title`: Main identifier of the plugin for the end-user. It accepts <a href="#multi-language">multi-language</a>
+    - `version`: Version number. Take into account that the system will not store previous versions.
+    - `shortDescription`It will appear in the plugin panel. It accepts <a href="#multi-language">multi-language</a>
+    - `longDescription`: It accepts <a href="#multi-language">multi-language</a>
+    - `updated`: yyyy-mmm-dd date format 
+    - `developer`: Who developed the plugin
+
+    ### Checkpoints
+
+    - Plugin `name` must exist and be unique
+
+<a name="actions"></a>
+
+## Features 
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+{"features": [
+    {
+        "trigger": "event",
+        "plugin": "providers-demo",
+        "entity": "Project",
+        "description": "Retrieving providers",
+        "event": "updated",
+        "actions": []
+    }
+]}
+
+```
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+The Features section defines the behavior of the plugin. It determines what will trigger it, and the actions that will follow.
+
+When a feature is triggered by an event, such as a task update, you must specify the `entity`(task, in our example) and the `event` (update, in the same example).
+
+When the feature is triggered by the scheduler, you must create the [synchronization frequency](#synchronization-frequency-"name"-"synchronizationfrequency") configuration option, so the user can set the value.
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+(*) Denotes a mandatory field
+
+- `trigger`: It can be `event` or `scheduler` *
+- `entity`: [Entities](#terminology) * mandatory for the `event` trigger
+- `event` [System Events](#Events) * mandatory for the `event` trigger
+- `async`: `true` or `false` It applies to the `event` trigger and determines whether the execution in ITM Platform that triggered it will stop (`false`) or the plugin will run in a parallel thread (`true`). The default value is `async`: `true` if not specified.
+- `description`: Useful for plugin developers. It will not be displayed to the end-user. 
+- `actions`: An array of [actions](#actions).
+
+    ⚠️ If you make the feature synchronous (`async: false`), the execution in ITM Platform will pause until the plugin responds, resulting in a potential lousy user experience. Make features synchronous only when necessary, and keep the logic as simple as possible. For example, when validating user inputs.
+
+ ### Checkpoints
+
+ - Each plugin should contain at least one feature.
+ - Triggers must be either `scheduler` or `event`
+ - Each feature will have actions array.
+
+## Actions 
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+     {
+		"action": "restcall",
+		"url": "https://api.itmplatform.com/v2/mycompany/projects/{{ input.project.Id }}",
+		"method": "GET",
+		"token": "{{ logininfo.Token }}",
+		"description": "Retrieve project",
+		"output": "project",
+		"payload": "",
+		"dataType": "application/json"
+	}
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+Actions are pieces of code executed when a feature is triggered. Actions are typically chained to one another by sending the `output` value from the parent action to the child action. 
+
+Actions admit [loops](#loops) and [conditionals](#conditionals).
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+<!-- We need to have a full list of available fields; some are not documented, like 'token' -->
+
+- `action`:  specifies the action type from the different [action types]().
+- `token`: Used to call the ITM Platform API <!--reference-->
+- `description`: For developers
+- `output`: <a href="#output-object">output object</a> used in further actins as the `input` object <!-- reference. -->
+- `payload`: body of the request. It supports [templates](#template-syntax), used to replace text with variable content.
+- `dataType`: is optional, and it will parse the result as JSON so it can be sent to any next step. When absent, the result will be a string.
+
+
+#### Checkpoints
+When saving a plugin, the following validations will run. If the script doesn't pass them, you will be able to save it but not activate the plugin.
+ - The action value can be one of: `restcall`, `soapcall`, `validate`, `map`, `email`, or `loop`
+ - If the action value is `restcall`, it can contain `url`, `method` (defaults to `GET`) and `payload` (not mandatory).
+- If the action value is `restcall`, it can have a `condition`.
+- If the action value is `soapcall`, it must include a `soapaction`, `url` and `payload`.
+- If the action value is `restcall` or `soapcall`, there is an authentication attribute and its value is basic, it must have username and password. <!--explain this ?-->
+- If the action value is `validate`, it must have `validationCondition` and `message`.
+- If the action value is `map`, it must have `template`.
+- If the action value is `loop`, it must have `var`, `condition`, `actions` and `output`.
+
+
+### Action Types
+
+The `action` value can be one of: `restcall`, `soapcall`, `validate`, `map`, `email`, or `loop`
+
+#### "action": "restcall"
+
+Performs a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer" target="_blank">REST call</a> to any third-party API or ITM Platform's.
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+<!-- We already explained all this. See a way to not repeat ourselves, but keep it understandable with requiring to read the whole document-->
+
+```json
+	{
+		"action": "restcall",
+		"url": "https://jsonplaceholder.typicode.com/todos/",
+		"method": "GET",
+		"description": "Retrieves a to-do list",
+		"output": "todos",
+		"payload": "",
+		"dataType": "application/json"
+	}
+```
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+A REST call is the most common way to get or post data in any API, including ITM Platform's. Use it as you would with any tool, such as Postman, `curl`, or your favorite programming language.
+
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+- `action`: Must be `restcall` 
+- `url`: See the <a href="#url">url</a> section.
+- `method`: specifies the HTTP method (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`)
+- `description`: Reference for the developer
+- `output`: <a href="#output-object">output object</a> used in further actions
+- `payload`: body of the request. 
+- `dataType`: is optional and it will parse the result as json so it can be send to any next step, if not passed then the result will be a string
+
+#### "action": "soapcall"
+
+Performs a <a href="https://en.wikipedia.org/wiki/SOAP" target="_blank">SOAP call</a> to any third-party system.
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+{
+    "action": "soapcall",
+    "url": "http://testurl.com/testservice",
+    "soapaction": "testmethod",
+    "payload": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\"><soapenv:Header/><soapenv:Body><tem:CallPost><tem:name>{{ input.SomeInt }}</tem:name></tem:CallPost></soapenv:Body></soapenv:Envelope>",
+    "dataType":  "application/json",
+    "authentication": "basic",
+    "user": "testuser",
+    "pass": "testpass",
+    "output": "jsonoutput"
+}
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+A SOAP action will require a `url`, a `soapaction`, a `payload` and an `output`. The `dataType` attribute must be `"application/json"`. It can also include an authentication attribute, along with `user` and `pass`. 
+
+**Data Types**
+
+The following example parses the `output` as xml, which can be used later on to retrieve values with mapping
+```json
+{
+    "action": "soapcall",
+    "url": "http://testurl.com/testservice",
+    "soapaction": "testmethod",
+    "payload": "{{ output1 }}",
+    "dataType":  "application/xml",
+    "output": "dataoutput"
+}
+{
+    "action": "soapcall",
+    "url": "http://testurl.com/testservice",
+    "soapaction": "testmethod",
+    "payload": "{{ output1 }}",
+    "dataType":  "application/json",
+    "output": "dataoutput"
+}
+```
+
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+- `action`: Must be `soapcall`
+- `soapaction`: SOAP action
+- `url`: SOAP URL
+- `payload`: The payload of the SOAP Action needs to be a SOAP Envelop message like specified here https://www.tutorialspoint.com/soap/soap_message_structure.htm The easiest way to create an envelop that you can use later, is to use a tool like <a href="https://www.soapui.org/" tagert="_blank">SOAPUI</a>, and then replace the values.
+- `authentication`: The type of authentication required, if any. The accepted values are.
+   - `basic` which will require `user` and `pass`
+   - `token` which will require `token` 
+- `user`: User name when basic authentication is required.
+- `pass`: Password when basic authentication is required.
+- `token`: Bearer token when token authentication is required
+
+#### action": "map"
+
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+    {
+        "action": "map",
+        "template": "{ \"name\": \"{{ input.name }}\", \"value\": \"{{ input.value }}\" }",
+        "dataType": "application/json",
+        "output": "outputVar"
+    }
+```
+
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+The `map` actions allow mapping values from existing variables. In the example above, the  variables `name` and `value` coming from `input` will be transformed to JSON.
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+- `template`: See [template syntax](#template-syntax)
+- `output`: <a href="#output-object">output object</a> used in other actions.
+- `dataType`: is optional, and it will parse the result as JSON so it can be sent to any next step. when omitted the result will be a string
+
+#### "action": "validate"
+
+Used in `synchronous` features, it performs a validation before proceeding. 
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+    {
+        "action": "validate",
+        "validateCondition": "Convert.ToInt32(input.Status.Id) == 10 && Convert.ToString(input.Description) == \"\"",
+        "message": "When using the status {{ input.Status.Description }} you need to provide a description"
+    }
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+The `validate` action will require a `validationCondition`, and a `message` that will be displayed to the final user if the condition is not met. It is generally used to perform custom validations that may need to change the way ITM platform works. For example, if you need to validate that a particular field has a value depending on other fields.
+
+<!-- These type of actions should not use async as they are meant to stop the processing and rollback whatever action was undergoing, but in the future maybe we can use this to record messages in the jobs when they execute from the scheduler to stop the processing of repeat tasks in case a validation is happening, this would allow us to avoid executing tasks that would fail in the scheduler. -->
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+- `action`: `validate` 
+- `validateCondition`: 
+<!-- TODO what kid of syntax -->
+- `message`: String displayed to the final user in ITM Platform's interface.
+
+
+#### "action": "email"
+Sends an email to the given address/es
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+        {
+          "action": "email",
+          "to": "yourname@yourcompany.com",
+          "subject": "This subject admits templates",
+          "body": "<html><h1>This email body admits templates too!</h1></html>"
+        }
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+Sends an email to the specified recipient(s). The sender will be notifier@itmplatorm.com, an address that doesn't admit replies.
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+- `action`: Must be `email`
+- `to`: Mandatory, indicates a comma-separated list of email addresses.
+- `subject`: Contains the subject text. It allows templates.
+- `body`: contains the message body. It allows templates.
+
+
+#### "action": "loop"
+
+The `loop`action will iterate over elements coming from previous calls.
+
+There are different types of loops: simple, with variables, an with variables and conditions.
+
+##### Simple loops
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+ { 
+    "trigger": "event",
+    "event": "updated",
+    "entity": "Project",
+    "actions": [
+        {
+            "action": "loop",
+            "loop": {
+                "var": "myarray",
+                "output": "item",
+                "index": "index"
+            },
+            "actions": [
+                { 
+                    "action": "restcall",
+                    "url": "http://your-company/{{ item.name }}/{{ index }}",
+                    "method": "post",
+                }
+            ]
+        }
+    ]
+} 
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+A loop action will parse an object coming from a previous action and run an actions array over the outcome.
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+
+##### Loops with variables
+
+We can also loop with variables inside an action. For example:
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+{
+    "trigger": "event",
+    "event": "updated",
+    "entity": "Project",
+    "action": "loop",
+    "loop": {
+        "var": "myarray.values",
+        "output": "singleElement",
+    },
+    "actions": [
+        {
+            "action": "restcall",
+            "url": "http://testurl.com/testapi",
+            "method": "POST",
+            "payload": "{\"Columns\": \"Id,Name,JiraId,Type.Id,MethodTypeId\",\"filter\": { \"JiraId\" : {{ singleElement.id }} } }",
+            "output": "outputVar",
+            "dataType": "application/json"
+        },
+```
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+##### Loops with variables and conditions
+
+We can also loop with variables and conditions inside an action. For an example:
+<i class="far fa-code" title="Learn by example"></i>
+
+```json
+{
+    "trigger": "event",
+    "event": "updated",
+    "entity": "Project",
+    "action": "loop",
+    "loop": {
+        "var": "myarray.values",
+        "output": "singleElement",
+        "condition": "somevariable != null"
+    },
+    "actions": [
+        {
+            "action": "restcall",
+            "url": "http://testurl.com/testapi",
+            "method": "POST",
+            "payload": "{\"Columns\": \"Id,Name,JiraId,Type.Id,MethodTypeId\",\"filter\": { \"JiraId\" : {{ singleElement.id }} } }",
+            "output": "outputVar",
+            "dataType": "application/json"
+        },
+        {
+            "action": "restcall",
+            "url": "http://testurl.com/testapi",
+            "condition": "Convert.ToInt32(outputVar.total) > 0",
+            "method": "PATCH",
+            "payload": "{\"Name\": \"{{ singleElement.name }}\",\"Description\": \"{{ singleElement.description }}\" }",
+            "output": "updatedoutputVar",
+            "dataType": "application/json"
+        }
+    ]
+}
+```
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+
+### Action conditionals
+Conditionals
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+    {
+        "action": "restcall",
+        "url": "https://api.hubapi.com/companies/v2/companies/recent/modified?hapikey={{config.apikeyHubspot }}&since={{ context.LastExecution }}", 
+        "condition": "{{ context.LastExecution }} != null",
+        "method": "GET",
+        "description": "retrieve all clients filter lastExecutiondate",
+        "output": "companiesHS",
+        "payload": "",
+        "dataType": "application/json"
+    }
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+You can put a condition to the event to check whether the actions should be executed.
+
+<!-- The conditions are executed using .net framework, but to make it easier to write also supports templates, therefore a complex condition could be written like this:    -->
+
+
+```json
+{
+"condition": "{{input.SomeObject.Array.0.Array.1.SomeData}} == 3"
+}
+```
+
+## Plugin Configuration 
+
+The `"config"` array will determine the content rendered in the plugin's configuration tab on ITM Platform, displaying all fields required for your plugin to operate.
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+  {
+    "config": [
+
+            {
+            "name": "option-name",
+            "label": {
+                "en": "Label in English",
+                "es": "Etiqueta en español",
+                "pt": "Rótulo em inglês"
+            },
+            "tooltip": {
+                "en": "A brief description for the tooltip",
+                "es": "Una breve descripción para el tooltip",
+                "pt": "Uma breve descrição para o tooltip"
+            },
+            "type": "date",
+            "required": true
+        }
+    ]
+}
+}
+
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+These fields are represented by the *configuration options* within the `config` array, whose values will be stored and used within the plugin script.
+
+Once the user fills out the ITM Platform's "Plugin Configuration" tab, the values will be exposed through the `config` object, available to be used in *features* and *actions*.
+
+These are some examples of the usage of the `config` object throughout a script:
+
+```json
+"url": "{{ config.url }}/rest/api/3/project/search?maxResults=50&startAt=0"
+```
+```json
+"username": "{{ config.user }}"
+```
+```json
+"payload": "{\"Name\": \"{{ singlejiraproject.name }}\",\"Description\": \"{{ singlejiraproject.description }}\",\"InternalCode\": \"{{ singlejiraproject.key }}\",\"JiraURL\": \"{{ config.url }}\",\"SynchronizationSource\": \"Jira\"{{#ifempty singlejiraproject.projectCategory }}{{else}},\"TypeId\": \"{{ map config.mapping.projecttype.external singlejiraproject.projectCategory.id }}\"{{/ifempty}} }"
+```
+These *configuration options* can define any **custom value** that you need to store (eg. the API key required to log in), but it also interprets a few **hardcoded values**.
+
+The identifier for each *configuration option* is the `name` property
+
+
+
+<!-- In addition we've got
+syncafterdate. -> defaulttaskdurationindays (Duration in days in for tasks in ITM Platform that are synchronized from Jira issues that do not have an end date)
+But it is not clear how to use them -->
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+- `name`: *Custom configuration options* accept any any valid unique name. *Hardcoded configuration options* are `"isactive"`, `"synchronizationfrequency"`, `"syncafterdate"` 
+- `label`: Message that will show before the user input. For example `"Start Date"`
+- `tooltip`: Message that will show when the user hovers over the information icon.
+- `type`: Defines the type of the user input. The valid values are `string`, `password`, `checkbox`, `date`, `dropdown`, and `header`. 
+- `required`: specifies if this configuration is required in order to execute the plugin. It only applies to the types `string`, `password`, `date`, and `dropdown`.
+
+The `header` type will render regular section header Section headers on ITM Platform's configuration tab, adding a adding a visual separation between fields.
+
+```json
+    {
+        "config": [
+        {
+                    "name": "header-credentials",
+                    "label": {
+                        "en": "Credentials section",
+                        "es": "Sección de credenciales",
+                        "pt": "Seção de credenciais"
+                    },
+                    "type": "header"
+                }
+        ]
+    }
+```
+
+
+### Hardcoded configuration options
+The hardcoded *configuration options* will be identified by their name and define a specific behavior in the *plugin interpreter*. These hardcoded options are:
+
+- `"name": "isactive"` 
+- `"name": "synchronizationfrequency"` 
+
+#### Activate the plugin (`"name": "isactive"`)
+Provides the option for the user to activate the plugin within the "Configuration" tab.
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+{
+    "config": [
+            {
+                "name": "isactive",
+                "label": {
+                    "en": "Activate connector",
+                    "es": "Activar conector",
+                    "pt": "Ativar o conector"
+                },
+                "tooltip": {
+                    "en": "When selected, the connector will be active and will start synchronizing data",
+                    "es": "Cuando esté seleccionado, el conector estará activo y comenzará a sincronizar datos",
+                    "pt": "Quando selecionado, o conector estará ativo e começará a sincronizar dados"
+                },
+                "type": "checkbox",
+            }
+    ]
+}
+```
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+This will display a checkbox to activate the plugin on the configuration tab in ITM Platform.
+
+⚠️ If you don't add this configuration, you will not be able to activate the plugin later on.
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+Properties with special considerations:
+- `name`: Must be `"isactive"` 
+- `type`: Must be `"checkbox"` 
+
+
+#### Synchronization frequency (`"name": "synchronizationfrequency"`)
+
+Provides the configuration option for the user to set the frequency at which the plugin will be triggered. It is ***required*** when the feature is triggered by `scheduler`
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+{
+    "config": [
+            {
+                "name": "synchronizationfrequency",
+                "label": {
+                    "en": "Synchronization frequency (minutes)"
+                },
+                "tooltip": {
+                    "en": "Frequency you wish to establish for the synchronization of the data from your account"
+                },
+                "type": "string",
+                "required": true
+            }
+    ]
+}
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+It will display in the "Configuration" tab a user input to introduce the synchronization frequency in minutes for the scheduler.
+
+It will apply to the feature(s) that have the `scheduler` trigger.
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+Properties with special considerations:
+- `name`: Must be `"synchronizationfrequency"`
+- `type`: Must be `"string"`
+<!-- This should be 'number' -->
+
+
+## Field Mapping
+The mapping configuration allows you to establish an equivalence between two systems, typically ITM Platform and a third party. 
+
+This is useful to create synchronizations based on the values of one or more fields.
+
+As a plugin developer, you don't set those relationships. You give the user the means to create relationships in the configuration tab in ITM Platform.
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+{
+ "mapping": [
+        {
+            "name": "projecttype",
+            "label": {
+                "en": "Project Type",
+                "es": "Tipo de proyecto",
+                "pt": "Tipo de Projeto"
+            },
+            "external": { 
+                "method": "GET",
+                "url": "@@url@@/rest/api/3/project/type",
+                "authentication": "Basic",
+                "user": "@@user@@",
+                "pass": "@@pass@@",
+                "id": "key",
+                "name": "formattedKey",
+                "columnName": {
+                    "en": "Jira",
+                    "es": "Jira",
+                    "pt": "Jira"
+                }
+            },
+            "internal": {
+                "method": "GET",
+                "url": "v2/@@companyId@@/GetProjectTypes",
+                "id": "Id",
+                "name": "Name",
+                "columnName": {
+                    "en": "ITM Platform",
+                    "es": "ITM Platform",
+                    "pt": "ITM Platform"
+                }
+            }
+        }
+ ]
+}
+```
+<!-- v2/@@companyId@@/ won't work -->
+<!-- Explain "@@user@@", "@@pass@@" -->
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+In the example above, the configuration panel will show two columns filled with the project types of ITM Platform and another with the project types of Jira. This will allow the user to establish that --for example- the project type "Software" in ITM Platform is equivalent to the project "Development" in Jira.
+
+<!-- Insert image -->
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+- `external`: The system A.
+- `internal`: The system B.  
+- `url`: Endpoint that will gather the values.
+- `authentication`: The type of authentication required, if any. The accepted values are.
+   - `basic` which will require `user` and `pass`
+   - `token` which will require `token` 
+- `user`: User name when basic authentication is required.
+- `pass`: Password when basic authentication is required.
+- `token`: Bearer token when token authentication is required
+- `id`: ID or name of the property containing the value of interest.
+- `name`: Name displayed
+- `columnName`: Label for the column that will appear in the config panel
+<!-- - `isFromITM`: boolean value 
+Example, plugin is ITM-Jira, it will be true in external and false in internal. If plugin is Jira-ITM it will be false in external and true in internal. (Note: I couldn't find any code that uses this variable. May be this is for our own understanding.)-->
+
+
+# Event Reference
+<!-- There are only events for task, project and revenue. But pruchases, risks and issues are revamped. Are there not events for it? -->
+The following are the events that ITM Platform triggers.
+
+|Trigger|Entity|Action|When|Input|
+|---|---|---|---|---|
+|scheduler|||This executes from scheduler|context.LastExecution|
+|event|Task|inserted|When a task is inserted| ```{{ { "accountId", accountId }, { "projectId", projectId }, { "JiraProjectId", JiraProjectId }, { "userId", userId }, { "task", new JObject() { { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId } } } }} ```|
+|event|Task|updated|When a task is updated|``` { { { "accountId", accountId }, { "projectId", projectId }, { "JiraProjectId", JiraProjectId }, { "userId", userId }, { "task", new JObject() { { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId } } } } }``` |
+|event|Project|inserted|When a project is created| ``` { { { "accountId", accountId }, { "userId", userId }, { "project", new JObject() { { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId }, { "JiraProjectId", JiraProjectId }, { "Description", description } } } } }```|
+|event|Project|updated|When a project is updated| ``` { { { "accountId", accountId }, { "userId", userId }, { "project", new JObject() { { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId }, { "JiraProjectId", JiraProjectId }, { "Description", description } } } } } ```|
+|event|Revenue|pre insert|When a Revenue is going to be created| ``` { { { "ProjectedAmount", projectedAmount }, { "ProjectId", projectId }, { "UserToken", userToken }, } } ```|
+|event|Revenue|inserted|When a Revenue is created| ``` {{ { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId } } } ```|
+|event|Revenue|pre update|When a Revenue is going to be updated| ``` { { { "ProjectedAmount", projectedAmount }, { "OldProjectAmount", oldProjectAmount }, { "ProjectId", projectId }, { "UserToken", userToken }, } } ```|
+|event|Revenue|updated|When a Revenue is updated| ``` { { { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId } } } ```|
+
+## Event bubbling up
+Events don't bubble up how you may be used in other environments. But if an entity event affects others, such as its parents, these parents will also trigger an event.
+
+For example, you change the end date of a task. That will trigger the event `updated` on the entity `Task`. Now, consider these two scenarios:
+- The task end date doesn't change the project's end date (or any other value, such as the cost). Then the project will not trigger any event
+- The task end date pushes forward the project's end date. Then that will trigger the event `updated` on the entity `Project`
+
+
+# Template Syntax
+
+Wherever templates are supported, you can use curly braces to wrap an expression `{{ expression }}` to generate the text that you need.
+
+The template system is based on [Handlebars](https://handlebarsjs.com/) and supports all the native [expressions](https://handlebarsjs.com/guide/expressions.html#basic-usage), plus a set of additional expressions that will come in handy when building a plugin.
+
+<!-- > caveat: Leave a space between curly craces and the expression {{ expression }} -->
+
+> caveat: If you need to include quotes within the template (tipically in the `payload`), you need to escape internal quotes with a backlash.  `{{ "payload": "{\"Value\": 23 }}`
+
+<!-- Mustache, when given a JSON structure, will try to read it and get all the values without the keys, so it is better not to pass JSON to the Mustache template -->
+
+## Additional expressions
+
+The following are Handlebars expressions created to specifically interact with the plugin interpreter. 
+
+### Data type converters
+
+Because the plugin script is written in plain text, you will need to tell the interpreter what data type you intend to pass.
+
+- `date`: Transforms a string to a date type.
+    - Parameters: `input` `format`
+    - Example: `"payload": "{\"jql\" : \"updated >= '{{ date config.syncafterdate 'yyyy/MM/dd HH:mm' }} \" }"`
+- `timespan`  Transforms a string to a time type. 
+    - Parameters: `input`
+    - Example: `"payload": "{\"timetracking\": {\"originalEstimate\": {{ timespan taskdetails.list.0.Efforts.Estimated }}\" }"`
+
+- `timespanFromSeconds` Transforms seconds to a time type
+    - Parameters: `input`
+    - Example: `"payload": "{\"ReportedHours\": \"{{ timespanFromSeconds singleworklog.timeSpentSeconds 'hh\\:mm'}}\" }"`
+- `int` Transforms a string to an integer.
+<!-- cannot find any int example within plugins -->
+
+### Value replacements
+
+- `map` Replaces a mapped value with its equivalent, as defined in the [field mapping](#field-mapping)
+    - Parameters: `map reference` `input value`
+    - Example: `"payload": "{\"TypeId\": {{ map config.mapping.projecttype.external singlejiraproject.projectCategory.id }},\" }"`
+- `mapArray` Get mapping from the array passed in parameter.
+    - Parameters: `map reference` `input value`
+    - Example: `"payload": "{\"CustomField\": [{ \"CustomFieldBaseId\": {{ mapArray customfields 'Name' 'Jira Link' 'Id'}} }] }"`
+<!-- This is not clear -->
+- `StringReplace` Replaces the second argument with the third argument in the first argument.
+<!-- This is not clear. No examples in existing plugins -->
+- `DoubleQuotesReplace` Encodes double Quotes(") with `&quot;`.
+    - Parameters: `input`
+    - Example: `"payload": "{\"Name\": \"{{ DoubleQuotesReplace singlejiraissue.fields.summary }}\" }"`
+- `json` Returns serialized object from json
+<!-- This is not clear. No examples in existing plugins -->
+
+### Conditionals
+
+- `ifempty` If the value given in the argument is empty then it executes the first statement otherwise second.
+                  "payload": "{\"jql\" : \"project = {{ singlejiraproject.id }} AND updated >= '{{#ifempty context.LastExecution }}{{ date config.syncafterdate 'yyyy/MM/dd HH:mm' }}{{else}}-{{ config.synchronizationfrequency }}m{{/ifempty}}'\", \"startAt\" : 0, \"maxResults\" : 1000}",
+
+- `ifext` If the condition given in the argument is satisfied then it executes the first statement otherwise second.
+<!-- This is not clear. No examples in existing plugins -->
+
+- `ifNull` Executes the first statement if the value passed is null otherwise executes the second statement.
+<!-- This is not clear. No examples in existing plugins -->
+
+- `ifEquals` If 2 values given in the argument are matched then it executes the first statement otherwise second.
+                      "payload": "{\"Name\": \"{{ singlejiraissue.fields.summary }}\",\"Details\": \"{{ adfParserDescription singlejiraissue.fields.description }}\",\"JiraURL\": \"{{ config.url }}\",\"SynchronizationSource\": \"Jira\",\"StartDate\": \"{{ date singlejiraissue.fields.created 'yyyy-MM-dd'}}\",\"EndDate\": {{#ifEquals singlejiraissue.fields.duedate '' }}\"{{DateTime.Now \"yyyy-MM-dd\"}}\"{{else}}\"{{ date singlejiraissue.fields.duedate 'yyyy-MM-dd'}}\"{{/ifEquals}},\"TypeName\": \"{{ map config.mapping.issuetype.external singlejiraissue.fields.issuetype.id }}\" ,\"PriorityName\": \"{{ map config.mapping.issuepriority.external singlejiraissue.fields.priority.id }}\"{{#ifEquals itmproject.list.0.MethodTypeId '2' }},\"KanbanId\":{{ kanbantaskstatus.KanbanId }}{{else}},\"StatusName\":\"{{ map config.mapping.issuestatus.external singlejiraissue.fields.status.id }}\"{{/ifEquals}} }",
+
+- `ifNotEquals` If 2 values given in the argument are not matched then it executes the first statement otherwise second.
+<!-- No examples in existing plugins -->
+
+<!-- Internal  
+
+- `imagevariant` Inserts the third argument at the last index of the second argument in the first argument.
+This is not clear. No examples in existing plugins 
+- `adfParserDescription` Replaces Double Quotes(") in given argument with &quot; (Specially made for jira issue description)
+This is not clear. 
+                      "payload": "{\"Name\": \"{{ singlejiraissue.fields.summary }}\",\"Details\": \"{{ adfParserDescription singlejiraissue.fields.description }}\",\"JiraURL\": \"{{ config.url }}\",\"SynchronizationSource\": \"Jira\",\"StartDate\": \"{{ date singlejiraissue.fields.created 'yyyy-MM-dd'}}\",\"EndDate\": {{#ifEquals singlejiraissue.fields.duedate '' }}\"{{DateTime.Now \"yyyy-MM-dd\"}}\"{{else}}\"{{ date singlejiraissue.fields.duedate 'yyyy-MM-dd'}}\"{{/ifEquals}},\"TypeName\": \"{{ map config.mapping.issuetype.external singlejiraissue.fields.issuetype.id }}\" ,\"PriorityName\": \"{{ map config.mapping.issuepriority.external singlejiraissue.fields.priority.id }}\"{{#ifEquals itmproject.list.0.MethodTypeId '2' }},\"KanbanId\":{{ kanbantaskstatus.KanbanId }}{{else}},\"StatusName\":\"{{ map config.mapping.issuestatus.external singlejiraissue.fields.status.id }}\"{{/ifEquals}} }",
+ --> -->
+
+## Accessing array of items 
+Mustache syntax won't work. To access the first item in a array, instead of something like `taskTeam.list.[0].Team`, it will have to be: `taskTeam.list.First.Team`
+<!-- wht? -->
+
+## Type modifiers
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+{
+"condition": "Convert.ToInt32(taskdetails.total) > 0 && Convert.ToInt32(taskdetails.list.First.KindId) == 3"
+}
+```
+<i class="fad fa-book-open" title="Guide"></i> **Guide**
+
+To perform logical operations, you need to use different type modifiers:
+
+- Convert.ToInt32()
+- Convert.ToString()
+- . . . any others?
+
+#### URL
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+{
+"url": "@@ITMAPI@@/mycompanylogin/{{ config.apikey }}",
+}
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide** 
+
+In the example above, we a <a href="#variables">varible</a> to call ITM Platform's login endpoint. The outcome of this case will be this: `https://api.itmplatform.com/my-company/login/86d4bb2a-2129-40f5-8311-918c6da16823`
+
+You can use any url, for example `http://www.randomnumberapi.com/api/v1.0/random?min=100&max=1000&count=5`
+
+<a name="variables"></a>
+
+#### Variables
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+{
+    "url": "@@ITMAPI@@/my-company/login/{{ config.apikey }}",
+}
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide** 
+
+The plugin interpreter provides you with variables that you can use. In the example above, we used `@@ITMAPI@@` to call ITM Platform's login endpoint. The outcome of this case would be: `https://api.itmplatform.com/my-company/login/86d4bb2a-2129-40f5-8311-918c6da16823`
+
+<i class="fad fa-brackets" title="Reference"></i> **Reference**
+
+- `@@AccountId@@` : The account Id, such as `18137`
+- `@@AccountName@`@ : The account name as it appears in the URL. For example `my-company`
+- `@@LanguageId@@` :  The user's language code. `2`
+<!-- What is the language code -->
+- `@@ITMAPI@@` : The host part of the URL. `https://api.itmplatform.com/`
+<!-- - @@TaskMS@@
+- @@AccountMS@@ 
+If we are not serving these, then we must provide a way for users to request the API KEy, and make a first call to the login method, store the token, then use it-->
+
+
+# Debugging
+
+To debug a plugin, you need to look in the logs to know what happened during its execution. Because the script gets interpreted in ITM Platform's servers, there is no "run and debug" action as you may be used to in other languages.
+
+When a plugin is triggered, either by the scheduler or an event, two different types of logs are fed.
+
+- The "Event History" displays a registry of executions, their status and useful information for the end-user.  
+- The "Script logs" are available for developers, and they show a registry of all action results.
+
+
+
+# Deploying a Plugin
+
+To create and deploy a script, you must have the proper license and permissions within ITM Platform. 
+
+1. From the Plugin Panel, click on New Plugin
+1. Fill out the name and other metadata. The plugin name will be used internally as the unique identifier and cannot be changed. For example, 'my-plugin'. It is case insensitive. No special characters or spaces are allowed
+1. Create the script in the "Code Editor" section
+1. Activate the plugin from the Configuration section
+
+
+<a name="multi-language"></a>
+
+# Multi-language
+- Some fields admit different language versions that will the displayed to the end-user depending on their language configuration. The three accepted languages are English (en), Spanish (es), Portuguese  (pt). The default language is English.
+
+<a name="terminology"></a>
+
+# Terminology
+- **Plugin:** An extension that adds a specific feature to ITM Platform
+- **Connector:** A plugin that connects ITM Platform with other applications
+- **Plugin Script:** Code that defines the behavior of the plugin (represented within a JSON structure)
+- **Plugin Interpreter:** The module within ITM Platform that executes the plugin script
+- **Entities:** A singular object within ITM Platform. For example, a project or a task
+- **System Events:** Signals emitted upon changes within ITM Platform. For example, a task update.
+- **Scheduler Events:** Time-based system that specifies a moment in time. For example, every two hours.
+- **Trigger:** Any occurrence, such as a system event or a scheduler event.
+- **Plugin Features:** Set of related actions that will be initiated upon a trigger.
+- **Actions:** Pieces of code executed to implement a feature, typically chained to one another.
+
+# Examples
+
+## Obtaining the ITM Platform authentication token
+
+```json
+{"actions":[{
+    "action": "restcall",
+    "url": "https://api.itmplatform.com/myCompany/login/{{ config.apikey }}",
+    "method": "POST",
+    "description": "Login with apikey",
+    "output": "logininfo",
+    "payload": "",
+    "dataType": "application/json"
+},
+{
+    "action": "restcall",
+    "url": "https://api.itmplatform.com/myCompany/projects/22333",
+    "method": "GET",
+    "token": "{{ logininfo.Token }}",
+    "description": "Retrieve project",
+    "output": "project",
+    "payload": "",
+    "dataType": "application/json"
+}]}
+```
+
+Result object in the `logininfo` variable (`output` of the first action):
+```json
+{
+    "Token": "5955520211116162058986",
+    "UserID": "33989",
+    "AccountID": "18137",
+    "Result": "1",
+    "ResultStatus": "Success"
+}
+```
+
+## Event-based example
+
+On this example, this plugin will trigger every time a task is updated. The goal is to send an email notifying the team members when a task with a purchase linked to it is completed
+
+```json
+{
+    /******PLUGIN GENERAL DEFINITION******/
+    "name": "event-based-plugin",
+    "svgString": "<svg xmlns='http://www.w3.org/2000/svg' width='64' x='0px' y='0px' viewBox='0 0 73.3 75.8' style='enable-background:new 0 0 73.3 75.8;' xml:space='preserve'> <style type='text/css'> .st0{fill:#2684FF;} .st1{fill:url(#SVGID_1_);} .st2{fill:url(#SVGID_2_);} </style> <title>Jira Software-blue</title> <g> <g id='Blue'> <path class='st0' d='M72.4,35.8L39.8,3.2L36.6,0l0,0L12.1,24.5l0,0L0.9,35.8c-1.2,1.2-1.2,3.1,0,4.2l22.4,22.4l13.3,13.3 l24.5-24.5l0.4-0.4L72.4,40C73.6,38.8,73.6,36.9,72.4,35.8z M36.6,49.1L25.4,37.9l11.2-11.2l11.2,11.2L36.6,49.1z'/> <linearGradient id='SVGID_1_' gradientUnits='userSpaceOnUse' x1='34.6324' y1='62.655' x2='18.9924' y2='47.015' gradientTransform='matrix(1 0 0 -1 0 78)'> <stop offset='0.18' style='stop-color:#0052CC'/> <stop offset='1' style='stop-color:#2684FF'/> </linearGradient> <path class='st1' d='M36.6,26.7c-7.3-7.3-7.4-19.2-0.1-26.6L12,24.6l13.3,13.3L36.6,26.7z'/> <linearGradient id='SVGID_2_' gradientUnits='userSpaceOnUse' x1='38.7774' y1='17.72' x2='54.3874' y2='33.33' gradientTransform='matrix(1 0 0 -1 0 78)'> <stop offset='0.18' style='stop-color:#0052CC'/> <stop offset='1' style='stop-color:#2684FF'/> </linearGradient> <path class='st2' d='M47.9,37.8L36.6,49.1c7.4,7.4,7.4,19.3,0,26.7c0,0,0,0,0,0l0,0l24.6-24.6L47.9,37.8z'/> </g> </g> </svg>",
+    "details": {
+        "title": {
+            "en": "Event-based-plugin",
+            "es": "Event-based-plugin",
+            "pt": "Event-based-plugin"
+        },
+        "version": "0.8",
+        "shortDescription": {
+            "en": "",
+            "es": "",
+            "pt": ""
+        },
+        "longDescription": {
+            "en": "Event-based-plugin",
+            "es": "Event-based-plugin",
+            "pt": "Event-based-plugin"
+        },
+        "updated": "2021-12-12",
+        "developer": "ITM Platform"
+    },
+    /******PLUGIN FEATURES DEFINITION******/
+    "features": [
+        // in this case there is only one feature
+        {
+            // This feature will trigger when a Task is updated
+            "trigger": "event",
+            "connector": "event-based-plugin",
+            "AccountId": "@@AccountId@@",
+            "entity": "Task",
+            "description": "every time a task that has a purchase linked to it  is completed, sends an email notifying”",
+            "event": "updated",
+            "async": true,
+            "actions": [ // This array contains all the actions that will be executed for this specific feature
+                {
+                    "action": "restcall",
+                    "url": "https://api.itmplatform.com/mycompanylogin/{{ config.apikey }}",
+                    "method": "POST",
+                    "description": "Do login with apikey",
+                    "output": "logininfo", // This object contains the token needed to make API calls to ITM Platform
+                    "payload": "",
+                    "dataType": "application/json"
+                },
+                {
+                    // We need to know to which project the task belongs
+                    "action": "restcall",
+                    "url": "https://api.itmplatform.com/v2/mycompany/projects/{{  input.projectId }}",
+                    "method": "GET",
+                    "token": "{{ logininfo.Token }}", // Token required to use ITM Platform endpoints
+                    "description": "Retrieve project",
+                    "output": "project", // This object has all the project info needed for the email
+                    "payload": "",
+                    "dataType": "application/json"
+                    
+                },
+                {
+                    // We have the project info, but we need information about the task that was updated
+                    "action": "restcall",
+                    // This URL will retrieve all the tasks attached to the project we got from the previous action
+                    "url": "https://api.itmplatform.com/v2/mycompany/projects/{{  input.projectId }}/tasks/Search", 
+                    "method": "POST",
+                    "token": "{{ logininfo.Token }}",
+                    "description": "Retrieve task team",
+                    // We need to send a payload in order to filter the tasks,
+                    // We are only interested on the task that triggered the feature, the one that was updated
+                    // Also we specify the columns we want to retrieve
+                    "payload": "{\"Filter\":{\"Id\":{\"$in\":[{{ input.task.Id }}]}}, \"Columns\":{\"$in\":[\"Id\", \"ProjectId\",\"Name\", \"Team\",\"Status\"]}}",
+                    "output": "taskTeam",
+                    "dataType": "application/json"
+                },
+                // At this point we have the project and the task info.
+                // Now its time to loop through each team member and send an email
+                {
+                    "action": "loop",
+                    "loop": {
+                        "var": "taskTeam.list.First.Team.TeamMembers", //We need the array with all the members
+                        "output": "singleMember",
+                        // This conditions checks if the task is completed (3 = "Completed")
+                        "condition": "{{taskTeam.list.0.Status.Type.Id}} == 3"
+                    },
+                    // If the condition is true, we execute the actions
+                    "actions": [
+                        {
+                            "action": "restcall",
+                            "url": "http://tools.itmplatform.com:8081/logAny",
+                            "method": "POST",
+                            "description": "team members",
+                            "output": "test",
+                            "payload": "{ \"TeamMember\": \" {{ singleMember.DisplayName }} \" , \"taskId\": {{ input.task.Id }} , \"taskName\": \" {{ input.task.Name }} \" , \"projectId\":  {{  input.projectId }} , \"statusss\": \" {{ taskTeam.list.[0].Status.Type.Id }} \" }",
+                            "dataType": "application/json"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    /******PLUGIN CONFIGURATION DEFINITION******/
+    "config": [
+
+        // This will display a checkbox to activate the plugin
+        {
+            "name": "isactive",
+            "label": {
+                "en": "Activate connector",
+                "es": "Activar conector",
+                "pt": "Ativar o conector"
+            },
+            "tooltip": {
+                "en": "When selected, the connector will be active and will start synchronizing data",
+                "es": "Cuando esté seleccionado, el conector estará activo y comenzará a sincronizar datos",
+                "pt": "Quando selecionado, o conector estará ativo e começará a sincronizar dados"
+            },
+            "type": "checkbox",
+            "required": false
+        },
+        //Input type text to introduce the API key associated to the account
+        {
+            "name": "apikey",
+            "label": {
+                "en": "API Key",
+                "es": "API Key",
+                "pt": "API Key"
+            },
+            "tooltip": {
+                "en": "API Key",
+                "es": "API Key",
+                "pt": "API Key"
+            },
+            "type": "string",
+            "required": true
+        }
+    ],
+
+    // This will enable the plugin only to specific companies 
+    "accountId": [
+        4019 // Array of numbers, add more account ids in orden to enable the plugin for them
+    ]
+}
+
+```
+
+## Scheduler-based plugin
+
+On this example, this plugin will trigger based on schedule. The goal is to sync the companies from Hubspot with the clients on ITM Platform (companies and clients refer to the same thing).
+
+```javascript
+const pluginScript = // Not part of the plugin script
+{
+     /******PLUGIN GENERAL DEFINITION******/
+	"name": "scheduler-based-plugin",
+	"svgString": "",
+	"details": {
+		"title": {
+			"en": "pseudo-Hubspot",
+			"es": "pseudo-Hubspot",
+			"pt": "pseudo-Hubspot"
+		},
+		"version": "0.8",
+		"shortDescription": {
+			"en": "Syncs companies from other platform",
+			"es": "sincroniza los clientes de platform con los clientes en ITM Platform",
+			"pt": ""
+		},
+		"longDescription": {
+			"en": "",
+			"es": "",
+			"pt": ""
+		},
+		"updated": "2021-11-15",
+		"developer": "ITM Platform"
+	},
+    /******PLUGIN FEATURES DEFINITION******/
+	"features": [
+		{
+            // The scheduler allows to process asynchronous tasks based on time
+			"trigger": "scheduler",
+			"connector":"scheduler-based-plugin",
+			"AccountId": "@@AccountId@@",
+			"description": "Syncs companies from Huspot",
+			"async": true,
+			"actions": [ // This array contains all the actions that will be executed for this specific feature
+				{
+					"action": "restcall",
+					"url": "https://api.itmplatform.com/mycompanylogin/{{ config.apikey }}",
+					"method": "POST",
+					"description": "Do login with apikey",
+					"output": "logininfo",  // This object contains the token needed to make API calls to ITM Platform
+					"payload": "",
+					"dataType": "application/json"
+				},
+					
+				{
+					"action": "restcall",
+					"url": "https://api.hubapi.com/crm/v3/objects/companies/search/?hapikey={{ config.apikeyHubspot }}",
+                    // This condition checks if it is the first time or if the last execution failed
+					"condition": "{{ context.LastExecution }} == null",
+					"method": "POST",
+					"description": "retrieve all clients that match condtions the first time",
+					"output": "companiesHS", 
+                    // We retrieve the companies that have the sync_itm_platform field set to true
+					"payload": "{\"filterGroups\":[{\"filters\":[{\"propertyName\":\"sync_itm_platform\",\"operator\":\"EQ\",\"value\":\"true\"}]}]}",
+					"dataType": "application/json"
+				},
+				{
+                    // This restcall gets all the companies modified since the last time
+					"action": "restcall",
+					"url": "https://api.hubapi.com/companies/v2/companies/recent/modified?hapikey={{config.apikeyHubspot }}&since={{ context.LastExecution }}", 
+                    // If the last execution was successful 
+					"condition": "{{ context.LastExecution }} != null",
+					"method": "GET",
+					"description": "retrieve all clients filter lastExecutiondate",
+					"output": "companiesHS",
+					"payload": "",
+					"dataType": "application/json"
+				},
+                // At this point, we have the object companiesHS, we need to loop through them
+                /*companiesHS either holds all the companies matching the condition 
+                  sync_itm_platform = true or all the companies modified since last execution*/
+				{
+					"action": "loop",
+					"loop": {
+						"var": "companiesHS.values", 
+						"output": "singleCompanyHS"
+					},
+					"actions": [
+						{
+                            /* We need to know if the company is already created on ITM Platform*/
+							"action": "restcall",
+							"url": "@@TaskMS@@/v2/@@AccountId@@/clients/?FiscaId={{ singleCompanyHS.id }}",
+							"method": "GET",
+							"token": "{{ logininfo.Token }}", // Token required to use ITM Platform endpoints
+							"description": "Retrieves the client from ITM Platform that matches de Fiscal ID (Company Id on Hubspot)",
+							"output": "clientsMatchingFiscalId",
+							"payload": "",
+							"dataType": "application/json"
+						},
+						{
+                            // We need tp retrieve the company specifying the information we want to from it
+							"action": "restcall",
+							"url": "https://api.hubapi.com/crm/v3/objects/companies/{{ singleCompanyHS.id }}?archived=false&hapikey={{ config.apikeyHubspot }}&properties=city", 
+							"method": "GET",
+							"description": "retrieve Hubspot client by ID with the specified properties",
+							"output": "company",
+							"payload": "",
+							"dataType": "application/json"
+						},
+						{
+							"action": "restcall",
+							"url": "@@TaskMS@@/v2/@@AccountId@@/clients/?ClientId={{ singleCompanyHS.id }}",
+                            // If clientsMatchingFiscalId.length ==  0, that means we need to create the company on ITM Platform for the first time
+							"condition": "clientsMatchingFiscalId.length == 0 && singleCompanyHS.sync_itm_platform == 'true'",
+							"method": "POST",
+							"token": "{{ logininfo.Token }}",
+							"description": "create client on ITM Platform",
+							"output": "",
+							"payload": "{{\"Name\": company.name, \"StreetAddress\": company.address, \"City\": company.city,  \"State\": company.state, \"Zipcode\":  \"Zipcode\", \"EmailAddress\":  \"EmailAddress\", \"Phone\": company.phone, }}",
+							"dataType": "application/json"
+						},
+						{
+                            // If clientsMatchingFiscalId.length >  0, that means that we just need to update it
+							"action": "restcall",
+							"url": "@@TaskMS@@/v2/@@AccountId@@/clients/?ClientId={{ singleCompanyHS.id }}",
+							"condition": "clientsMatchingFiscalId.length>0 && singleCompanyHS.sync_itm_platform=='true'",
+							"method": "PATCH",
+							"token": "{{ logininfo.Token }}",
+							"description": "update client on ITM Platform",
+							"output": "",
+							"payload": ".....",
+							"dataType": "application/json"
+						}
+					]
+				}  
+			]
+		}
+	],
+	"config": [
+		{
+			"name": "isactive",
+			"label": {
+				"en": "Activate connector",
+				"es": "Activar conector",
+				"pt": "Ativar o conector"
+			},
+			"tooltip": {
+				"en": "When selected, the connector will be active and will start synchronizing data",
+				"es": "Cuando esté seleccionado, el conector estará activo y comenzará a sincronizar datos",
+				"pt": "Quando selecionado, o conector estará ativo e começará a sincronizar dados"
+			},
+			"type": "checkbox",
+			"required": false
+		},
+		{
+			"name": "apikey",
+			"label": {
+				"en": "API Key",
+				"es": "API Key",
+				"pt": "API Key"
+			},
+			"tooltip": {
+				"en": "API Key",
+				"es": "API Key",
+				"pt": "API Key"
+			},
+			"type": "string",
+			"required": true
+		},
+		{
+			"name": "apikeyHubspot",
+			"label": {
+				"en": "Hubspot API Key",
+				"es": "Hubspot API Key",
+				"pt": "Hubspot API Key"
+			},
+			"tooltip": {
+				"en": " HubspotAPI Key",
+				"es": "Hubspot API Key",
+				"pt": "Hubspot API Key"
+			},
+			"type": "string",
+			"required": true
+		},
+		{
+            "name": "synchronizationfrequency",
+            "label": {
+                "en": "Synchronization frequency (minutes)",
+                "es": "Frecuencia sincronización (minutos)",
+                "pt": "Frequência de sincronização (em minutos)"
+            },
+            "tooltip": {
+                "en": "Frequency you wish to establish for the synchronization of the data from you Hubspot account",
+                "es": "Frecuencia con la que prefieres establecer la sincronización de los datos de tu cuenta de Hubspot",
+                "pt": "Frequência com que prefere estabelecer a sincronização de dados de sua conta Hubspot"
+            },
+            "type": "string",
+            "required": true
+        }
+	]
+}
+
+```
+<!-- INTERNAL
+
+Plugin available only for specific company
+This makes the plugin available only for specific company or group of companies
+
+{
+    
+    "accountId": [4019]
+}
+ -->
