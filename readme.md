@@ -983,18 +983,18 @@ Result object in the `logininfo` variable (`output` of the first action):
 ```
 ## Aditional examples
 
-- [Example 1](https://github.com/itmplatform/plugin-documentation/example-1). 	When a project updates, send a message to a static email address.
+- [Example 1](https://github.com/itmplatform/plugin-documentation/tree/main/example-1). 	When a project updates, send a message to a static email address.
     - Event-based
     - Minimal configuration: activation only
-- [Example 2](https://github.com/itmplatform/plugin-documentation/example-2).	When a purchase's actual value updates, send an email to a static address if the amount exceeds the purchase budget.
+- [Example 2](https://github.com/itmplatform/plugin-documentation/tree/main/example-2).	When a purchase's actual value updates, send an email to a static address if the amount exceeds the purchase budget.
     - Event-based
-- [Example 3](https://github.com/itmplatform/plugin-documentation/example-3).	Send a daily email to the project manager of a specific project containing all tasks whose end date is later than today.
+- [Example 3](https://github.com/itmplatform/plugin-documentation/tree/main/example-3).	Send a daily email to the project manager of a specific project containing all tasks whose end date is later than today.
     - Scheduler-based
     - Loop and conditions
-- [Example 4](https://github.com/itmplatform/plugin-documentation/example-4)Synchronize ITM Platform's clients with Hubspot's companies: only those  having the Hubspot's property `sync_itm_platform` set to `true`.
+- [Example 4](https://github.com/itmplatform/plugin-documentation/tree/main/example-4)Synchronize ITM Platform's clients with Hubspot's companies: only those  having the Hubspot's property `sync_itm_platform` set to `true`.
     - Scheduler-based
     - Connector to a third-party system
-- [Example 5](https://github.com/itmplatform/plugin-documentation/example-5)Allow users to input revenue's Actual Amount if <= Projected Amount. 
+- [Example 5](https://github.com/itmplatform/plugin-documentation/tree/main/example-5)Allow users to input revenue's Actual Amount if <= Projected Amount. 
     - Event-based, synchronous
 
 
