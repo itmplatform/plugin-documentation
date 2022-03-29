@@ -53,11 +53,10 @@ A plugin script is defined in a single JSON file, following this structure:
 
 <i class="far fa-code" title="Learn by example"></i> **Learn by example**
 
-<!-- Example when available -->
 ```json
     {
         "name": "unique-name",
-        "svgString": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 384C305.4 384 340.6 353.2 361.4 323.4C363.1 319.8 368.1 318.9 372.6 321.4C376.2 323.1 377.1 328.1 374.6 332.6C352.1 364.6 312.7 400 255.1 400C199.3 400 159.9 364.6 137.4 332.6C134.9 328.1 135.8 323.1 139.4 321.4C143 318.9 148 319.8 150.6 323.4C171.4 353.2 206.6 384 255.1 384H256zM192.4 208C192.4 216.8 185.2 224 176.4 224C167.5 224 160.4 216.8 160.4 208C160.4 199.2 167.5 192 176.4 192C185.2 192 192.4 199.2 192.4 208zM320.4 208C320.4 199.2 327.5 192 336.4 192C345.2 192 352.4 199.2 352.4 208C352.4 216.8 345.2 224 336.4 224C327.5 224 320.4 216.8 320.4 208zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 16C123.5 16 16 123.5 16 256C16 388.5 123.5 496 256 496C388.5 496 496 388.5 496 256C496 123.5 388.5 16 256 16z"/></svg>',
+        "svgString": "<svg xmlns='http://www.w3.org/2000/svg' fill='#495d73' viewBox='0 0 640 512'><path d='M640 256c0 35.35-21.49 64-48 64c-32.43 0-31.72-32-55.64-32C522.9 288 512 298.9 512 312.4V416c0 17.67-14.33 32-32 32h-103.6C362.9 448 352 437.1 352 423.6C352 399.1 384 400.4 384 368c0-26.51-28.65-48-64-48s-64 21.49-64 48c0 32.43 32 31.72 32 55.64C288 437.1 277.1 448 263.6 448H160c-17.67 0-32-14.33-32-32V312.4C128 298.9 117.1 288 103.6 288C79.95 288 80.4 320 48 320c-26.51 0-47.1-28.65-47.1-64S21.49 191.1 48 191.1c32.43 0 31.72 32 55.64 32C117.1 223.1 128 213.1 128 199.6V95.1C128 78.33 142.3 63.1 160 63.1l103.6 0C277.1 63.1 288 74.9 288 88.36C288 112 256 111.6 256 143.1C256 170.5 284.7 192 320 192s64-21.49 64-48c0-32.43-32-31.72-32-55.64c0-13.45 10.91-24.36 24.36-24.36L480 63.1c17.67 0 32 14.33 32 32v103.6c0 13.45 10.91 24.36 24.36 24.36c23.69 0 23.24-32 55.64-32C618.5 191.1 640 220.7 640 256z'/></svg>",
         "details": {
             "title": {"en": "My Plugin","es": "Mi plugin","pt": "Meu plugin"},
             "version": "0.8",
@@ -74,7 +73,6 @@ The general definition will provide  basic information about the plugin you are 
 
 <i class="fad fa-brackets" title="Reference"></i> **Reference**
 
-<!-- Reference here -->
 - `name`: It will be used as a identifier for the plugin and must be unique. It can't have spaces or special characters.
 - `svgString`: Inline SVG that will be used as the plugin icon.
 - `details`
@@ -747,14 +745,14 @@ The following are the events that ITM Platform triggers.
 |Trigger|Entity|Action|When|Input|
 |---|---|---|---|---|
 |scheduler|||This executes from scheduler|context.LastExecution|
-|event|Task|inserted|When a task is inserted| ```{{ { "accountId", accountId }, { "projectId", projectId }, { "JiraProjectId", JiraProjectId }, { "userId", userId }, { "task", new JObject() { { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId } } } }} ```|
-|event|Task|updated|When a task is updated|``` { { { "accountId", accountId }, { "projectId", projectId }, { "JiraProjectId", JiraProjectId }, { "userId", userId }, { "task", new JObject() { { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId } } } } }``` |
-|event|Project|inserted|When a project is created| ``` { { { "accountId", accountId }, { "userId", userId }, { "project", new JObject() { { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId }, { "JiraProjectId", JiraProjectId }, { "Description", description } } } } }```|
-|event|Project|updated|When a project is updated| ``` { { { "accountId", accountId }, { "userId", userId }, { "project", new JObject() { { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId }, { "JiraProjectId", JiraProjectId }, { "Description", description } } } } } ```|
-|event|Revenue|pre insert|When a Revenue is going to be created| ``` { { { "ProjectedAmount", projectedAmount }, { "ProjectId", projectId }, { "UserToken", userToken }, } } ```|
-|event|Revenue|inserted|When a Revenue is created| ``` {{ { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId } } } ```|
-|event|Revenue|pre update|When a Revenue is going to be updated| ``` { { { "ProjectedAmount", projectedAmount }, { "OldProjectAmount", oldProjectAmount }, { "ProjectId", projectId }, { "UserToken", userToken }, } } ```|
-|event|Revenue|updated|When a Revenue is updated| ``` { { { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId } } } ```|
+|event|Task|inserted|When a task is inserted| ```{{ "accountId", accountId }, { "projectId", projectId },  { "userId", userId }, { "task": { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId }}} ```|
+|event|Task|updated|When a task is updated|``` { { "accountId", accountId }, { "projectId", projectId },  { "userId", userId }, { "task": { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId }}}``` |
+|event|Project|inserted|When a project is created| ``` { { "accountId", accountId }, { "userId", userId }, { "project": { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId },  { "Description", description }}}```|
+|event|Project|updated|When a project is updated| ``` { { "accountId", accountId }, { "userId", userId }, { "project": { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId },  { "Description", description }}} ```|
+|event|Revenue|pre insert|When a Revenue is going to be created| ``` { { "ProjectedAmount", projectedAmount }, { "ProjectId", projectId }, { "UserToken", userToken }, } ```|
+|event|Revenue|inserted|When a Revenue is created| ``` {{ "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId }} ```|
+|event|Revenue|pre update|When a Revenue is going to be updated| ``` { { "ProjectedAmount", projectedAmount }, { "OldProjectAmount", oldProjectAmount }, { "ProjectId", projectId }, { "UserToken", userToken }, } ```|
+|event|Revenue|updated|When a Revenue is updated| ``` { { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId }} ```|
 
 ## Event bubbling up
 Events don't bubble up how you may be used in other environments. But if an entity event affects others, such as its parents, these parents will also trigger an event.
@@ -983,18 +981,19 @@ Result object in the `logininfo` variable (`output` of the first action):
 ```
 ## Aditional examples
 
-- [Example 1](https://github.com/itmplatform/plugin-documentation/tree/main/example-1). 	When a project updates, send a message to a static email address.
+- [Example 1](https://github.com/itmplatform/plugin-documentation/tree/main/example-1). When a project updates, send a message to a static email address.
     - Event-based
     - Minimal configuration: activation only
 - [Example 2](https://github.com/itmplatform/plugin-documentation/tree/main/example-2).	When a purchase's actual value updates, send an email to a static address if the amount exceeds the purchase budget.
     - Event-based
+    - Using conditions
 - [Example 3](https://github.com/itmplatform/plugin-documentation/tree/main/example-3).	Send a daily email to the project manager of a specific project containing all tasks whose end date is later than today.
     - Scheduler-based
     - Loop and conditions
-- [Example 4](https://github.com/itmplatform/plugin-documentation/tree/main/example-4)Synchronize ITM Platform's clients with Hubspot's companies: only those  having the Hubspot's property `sync_itm_platform` set to `true`.
+- [Example 4](https://github.com/itmplatform/plugin-documentation/tree/main/example-4). Synchronize ITM Platform's clients with Hubspot's companies: only those  having the Hubspot's property `sync_itm_platform` set to `true`.
     - Scheduler-based
     - Connector to a third-party system
-- [Example 5](https://github.com/itmplatform/plugin-documentation/tree/main/example-5)Allow users to input revenue's Actual Amount if <= Projected Amount. 
+- [Example 5](https://github.com/itmplatform/plugin-documentation/tree/main/example-5). Allow users to input revenue's Actual Amount if <= Projected Amount. 
     - Event-based, synchronous
 
 
