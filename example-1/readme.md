@@ -3,6 +3,8 @@
 
 This example is the most basic version of a plugin you can create, but it will help you understand the fundamental mechanics. 
 
+The full code is in the JSON file included in this same folder.
+
 ### Desired functionality
 
 When any project updates (such as its status or name), a recipient will receive an email.
@@ -96,7 +98,7 @@ Therefore, `"Project updated: {{input.project.Name}}"` will render in an email s
 The same goes for the body, into which we wanted to add some HTML.
 
 ### Configuration
-As described in the [plugin configuration] section, we must add an [activation option](https://github.com/itmplatform/plugin-documentation#activate-the-plugin-name-isactive) so you can, later on, activate this plugin.
+As described in the [plugin configuration](https://github.com/itmplatform/plugin-documentation#plugin-configuration) section, we must add an [activation option](https://github.com/itmplatform/plugin-documentation#activate-the-plugin-name-isactive) so you can, later on, activate this plugin.
 
 ```json
 "config": [
