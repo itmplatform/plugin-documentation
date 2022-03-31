@@ -532,9 +532,9 @@ The `"config"` array will determine the content rendered in the plugin's configu
 
 <i class="fad fa-book-open" title="Guide"></i> **Guide**
 
-These fields are represented by the *configuration options* within the `config` array, whose values will be stored and used within the plugin script.
+These fields are represented by the *configuration options* within the `config` array.
 
-Once the user fills out the ITM Platform's "Plugin Configuration" tab, the values will be exposed through the `config` object, available to be used in *features* and *actions*.
+Once the user fills out the ITM Platform's "Plugin Configuration" tab, the values will be available through the `config` object, available to be used in *features* and *actions*.
 
 These are some examples of the usage of the `config` object throughout a script:
 
@@ -855,7 +855,7 @@ Mustache syntax won't work. To access the first item in a array, instead of some
 <i class="fad fa-book-open" title="Guide"></i> **Guide**
 
 To perform logical operations, you need to use different type modifiers:
-
+- [ ] Add all Convert
 - Convert.ToInt32()
 - Convert.ToString()
 - . . . any others?
@@ -895,8 +895,8 @@ The plugin interpreter provides you with variables that you can use. In the exam
 <i class="fad fa-brackets" title="Reference"></i> **Reference**
 
 - `@@AccountId@@` : The account Id, such as `18137`
-- `@@AccountName@`@ : The account name as it appears in the URL. For example `my-company`
-- `@@LanguageId@@` :  The user's language code. `2`
+- `@@AccountName@@` : The account name as it appears in the URL. For example `my-company`
+- `@@LanguageId@@` :  The user's language code, as follows: en: `1`, es: `2`, pt:`3`
 <!-- What is the language code -->
 - `@@ITMAPI@@` : The host part of the URL. `https://api.itmplatform.com/`
 <!-- - @@TaskMS@@

@@ -1,5 +1,5 @@
-# ITM Platform's Plugin Script
-## Example 2. When a purchase updates, send a message if the actual amount exceeds the projected amount
+# ITM Platform's Plugin Script. Example 2
+## When a purchase updates, send a message if the actual amount exceeds the projected amount
 
 This example illustrates how to use conditionals. If you haven't done so, it is recommended that you read more basic examples first.
 
@@ -13,7 +13,7 @@ For the sake of simplicity, we will use a static email address `your.friend@itmp
 
 We will solely focus on the `features` because we already covered the [Plugin General Definition](https://github.com/itmplatform/plugin-documentation#plugin-general-definition) in previous examples and the [plugin configuration](https://github.com/itmplatform/plugin-documentation#plugin-configuration) has no additional settings.
 
-### Features and actions
+## Features and actions
 
 The specification tells us we need to trigger the feature when a purchase is updated. 
 

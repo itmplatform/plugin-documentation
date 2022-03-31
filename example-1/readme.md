@@ -1,5 +1,5 @@
-# ITM Platform's Plugin Script
-## Example 1. When a project updates, send a message to a static email address
+# ITM Platform's Plugin Script. Example 1
+## When a project updates, send a message to a static email address
 
 This example is the most basic version of a plugin you can create, but it will help you understand the fundamental mechanics. 
 
@@ -13,7 +13,7 @@ For the sake of simplicity, we will use a static email address `your.friend@itmp
 
 Let's see it part by part.
 
-### Plugin General Definition
+## Plugin General Definition
 When you click on the button "New Plugin," you can fill out the form or provide the plugin name in the form and fill in the other properties within the script editor.
 
 More about the [Plugin General Definition](https://github.com/itmplatform/plugin-documentation#plugin-general-definition).
@@ -37,7 +37,7 @@ More about the [Plugin General Definition](https://github.com/itmplatform/plugin
 ```
 We have removed the `longDescription`, `version`, and other properties to make it smaller.
 
-### Features and actions
+## Features and actions
 
 The specification tells us we need to trigger the feature when the project is updated. 
 
@@ -97,7 +97,7 @@ Therefore, `"Project updated: {{input.project.Name}}"` will render in an email s
 
 The same goes for the body, into which we wanted to add some HTML.
 
-### Configuration
+## Configuration
 As described in the [plugin configuration](https://github.com/itmplatform/plugin-documentation#plugin-configuration) section, we must add an [activation option](https://github.com/itmplatform/plugin-documentation#activate-the-plugin-name-isactive) so you can, later on, activate this plugin.
 
 ```json
