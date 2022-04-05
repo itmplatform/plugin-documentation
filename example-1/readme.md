@@ -124,3 +124,4 @@ Don't forget to activate the plugin by clicking on the "Configuration" section o
 
 :point_right: If you make any changes in the code, you will have to deactivate it and reactivate back again for the changes to apply.
 
+<a href="../example-2/">Continue to example 2</a>

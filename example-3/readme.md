@@ -218,7 +218,7 @@ As we know, the `tasks` object has a `list` property that will hold all tasks an
 
 ## Bonus example
 
-In this same folder, you have access to `e3.1-overdue-task-email.json`, an example that uses a loop to send an email task by task, if that's what you need.
+In this same folder, you have access to `e3.1-overdue-task-email.json`, an example that uses a loop to send an email task by task.
 
 The only difference will be that you will send one email per task, like so:
 
@@ -241,6 +241,7 @@ The only difference will be that you will send one email per task, like so:
     }
 ```
 
+<a href="../example-4/">Continue to example 4</a>
 
 
 

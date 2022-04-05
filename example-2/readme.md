@@ -53,3 +53,4 @@ Now, as explained in the [type modifiers](https://github.com/itmplatform/plugin-
 
 This is all you need to create your first plugin managing conditions.
 
+<a href="../example-3/">Continue to example 3</a>
