@@ -92,12 +92,12 @@ Now, we need to look into each company that we have in `companiesHS`. For this w
     },
     "actions": [...]
 ```
-Because Hubspot returned all companies in an array called `results` within the object `companiesHS`, the loop "var" will be `"var": "companiesHS.results"`.
+Because Hubspot returned all companies in an array called `results` within the object `companiesHS`, the loop "var" will be `"var": "companiesHS.results"`. The content of each iteration will be stored in `singleCompanyHS`
 
-All actions will be performed within the actions array of the loop.
+All further actions will be performed within the `actions` array of the loop.
 
 ### Loop actions: more REST Calls
-Remember that for each company, we need to:
+According to the specs, for each company, we need to:
 1. If the company doesn't exist in ITM Platform, create the client.
 1. Otherwise, update the information of the client.
 
@@ -115,17 +115,16 @@ First step is verifying whether the company exists as a client in ITM Platform
     "dataType": "application/json"
 }
 ```
-We are using ITM Platform's [GET Clients](https://developers.itmplatform.com/documentation/#clients-clients-get) endpoint to filter by FiscalId. Because we established that the equivalent to the Fiscal Id in Hubspot would be the company Id we can use `?FiscalId={{ singleCompanyHS.id }}`. 
+We are using ITM Platform's [GET Clients](https://developers.itmplatform.com/documentation/#clients-clients-get) endpoint to filter by `FiscalId`. Because we established that the equivalent to the Fiscal Id in Hubspot would be the company Id, we can use `?FiscalId={{ singleCompanyHS.id }}`. 
 
-Now we will have an object `clientsMatchingFiscalId` returned by ITM Platform containing zero, one or more clients matching he Fiscal Id. 
+Now we will have an object `clientsMatchingFiscalId` returned by ITM Platform containing zero, one or more clients matching the Fiscal Id. 
 
-Let's check whether is it zero:
-
+### If the company doesn't exist in ITM Platform, create the client
 ```json
 {
     "action": "restcall",
     "url": "@@ITMAPI@@/v2/@@AccountName@@/clients/",
-    "condition": "Convert.ToString(clientsMatchingFiscalId).length == 0",
+    "condition": "Convert.ToString(clientsMatchingFiscalId) == \"[]\"",
     "method": "POST",
     "token": "{{ loginInfo.Token }}",
     "description": "If clientsMatchingFiscalId.length ==  0, that means we need to create the company on ITM Platform for the first time",
@@ -136,5 +135,25 @@ Let's check whether is it zero:
 ``` 
 If there are zero clients, then we know we have no clients with that fiscal ID and we can create it from our previous
 
-We used `"condition": "Convert.ToString(clientsMatchingFiscalId).length == 0"`  
+We used `"condition": "Convert.ToString(clientsMatchingFiscalId) == \"[]\""` to verify that the array is empty.
+
+If the conditions is met, the client is created in ITM Platform using the [POST client](https://developers.itmplatform.com/documentation/#clients-client-v2-post) endpoint.
+
+### Otherwise, update the information of the client
+Likewise, if the list of clients is not empty we need to update the existing client
+
+```json
+{
+    "action": "restcall",
+    "url": "@@ITMAPI@@/v2/@@AccountName@@/clients/{{clientsMatchingFiscalId.0.ClientId}}",
+    "condition": "Convert.ToString(clientsMatchingFiscalId) != \"[]\"",
+    "method": "PATCH",
+    "token": "{{ loginInfo.Token }}",
+    "description": "If clientsMatchingFiscalId.length >  0, that means that we just need to update it",
+    "output": "",
+    "payload": "{\"FiscalId\": \"{{ singleCompanyHS.id }}\", \"Name\": \"{{ singleCompanyHS.properties.name }}\" }",
+    "dataType": "application/json"
+}
+```
+To do so, we will use the [PATCH client](https://developers.itmplatform.com/documentation/#clients-client-v2-patch) method, adding the ClientId at the end. For simplicity, we will update the first client, which in normal conditions should be the only one `clientsMatchingFiscalId.0.ClientId`
 

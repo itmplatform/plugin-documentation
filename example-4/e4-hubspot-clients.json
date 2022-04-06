@@ -1,5 +1,5 @@
 {
-    "name": "e4-hubspot-clients-3",
+    "name": "e4-hubspot-clients-4",
     "svgString": "",
     "details": {
         "title": {
@@ -40,7 +40,7 @@
                     "action": "restcall",
                     "url": "https://api.hubapi.com/crm/v3/objects/companies/search/?hapikey={{ config.apikeyHubspot }}",
                     "method": "POST",
-                    "description": "Retrieve all companies that have the sync_itm_platform field set to true",
+                    "description": "Retrieve all clients that have the sync_itm_platform field set to true",
                     "output": "companiesHS",
                     "payload": "{\"properties\": [ \"name\",\"address\",\"city\",\"state\", \"phone\" ], \"filterGroups\": [ { \"filters\": [ { \"propertyName\": \"sync_itm_platform\", \"operator\": \"EQ\", \"value\": \"true\" } ] } ]}",
                     "dataType": "application/json"
@@ -67,7 +67,7 @@
                         {
                             "action": "restcall",
                             "url": "@@ITMAPI@@/v2/@@AccountName@@/clients/",
-                            "condition": "Convert.ToString(clientsMatchingFiscalId).length == 0",
+                            "condition": "Convert.ToString(clientsMatchingFiscalId) == \"[]\"",
                             "method": "POST",
                             "token": "{{ loginInfo.Token }}",
                             "description": "If clientsMatchingFiscalId.length ==  0, that means we need to create the company on ITM Platform for the first time",
@@ -78,7 +78,7 @@
                         {
                             "action": "restcall",
                             "url": "@@ITMAPI@@/v2/@@AccountName@@/clients/{{clientsMatchingFiscalId.0.ClientId}}",
-                            "condition": "Convert.ToString(clientsMatchingFiscalId).length > 0",
+                            "condition": "Convert.ToString(clientsMatchingFiscalId) != \"[]\"",
                             "method": "PATCH",
                             "token": "{{ loginInfo.Token }}",
                             "description": "If clientsMatchingFiscalId.length >  0, that means that we just need to update it",
