@@ -324,9 +324,8 @@ The `validate` action will require a `validationCondition`, and a `message` that
 <i class="fad fa-brackets" title="Reference"></i> **Reference**
 
 - `action`: `validate` 
-- `validateCondition`: 
-<!-- TODO what kid of syntax -->
-- `message`: String displayed to the final user in ITM Platform's interface.
+- `validateCondition`: It follows the same rules and syntax of [action conditionals](https://github.com/itmplatform/plugin-documentation#action-conditionals)
+- `message`: String displayed to the final user in the ITM Platform's interface in case the condition is not met.
 
 
 #### "action": "email"
@@ -844,21 +843,29 @@ Mustache syntax won't work. To access the first item in a array, instead of some
 <!-- wht? -->
 
 ## Type modifiers
-
+To compare or operate with values, you need to specify the type of value. 
 <i class="far fa-code" title="Learn by example"></i> **Learn by example**
 
 ```json
 {
-"condition": "Convert.ToInt32(taskdetails.total) > 0 && Convert.ToInt32(taskdetails.list.First.KindId) == 3"
+"condition": "Convert.ToInt32(taskdetails.total) > 0 && Convert.ToInt32(taskdetails.list.0.KindId) == 3"
 }
 ```
 <i class="fad fa-book-open" title="Guide"></i> **Guide**
 
-To perform logical operations, you need to use different type modifiers:
-- [ ] Add all Convert
-- Convert.ToInt32()
-- Convert.ToString()
-- . . . any others?
+To perform logical operations, you need to specify the type of value. The script interpreter will throw an error otherwise:
+
+There are the data converions you can use
+- `Convert.ToBoolean()`: Converts a specified value to an equivalent Boolean value.
+- `Convert.ToDateTime()`: Converts a specified value to a [DateTime](https://docs.microsoft.com/en-us/dotnet/api/system.datetime?view=net-6.0) value.
+- `Convert.ToDecimal ()`: Converts a specified value to a decimal number.
+- `Convert.ToDouble()`: Converts a specified value to a double-precision floating-point number.
+- `Convert.ToInt16()`:Converts a specified value to a 16-bit signed integer.
+- `Convert.ToInt32()`:Converts a specified value to a 32-bit signed integer.
+- `Convert.ToInt64()`:Converts a specified value to a 64-bit signed integer.
+- `Convert.ToSingle()`: Converts a specified value to a single-precision floating-point number.
+- `Convert.ToString()`: Converts the specified value to its equivalent string representation.
+
 
 #### URL
 
