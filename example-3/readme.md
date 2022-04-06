@@ -88,7 +88,7 @@ To achieve this, we need to use the [scheduler frequency](https://github.com/itm
 },
 ```
 
-### Features and actions
+## Features and actions
 Now we are ready to work with the `feature` and its `actions`.
 
 To begin with, we know that this is a scheduled set of actions. So let's go ahead and code that.
