@@ -124,7 +124,7 @@ Now we will have an object `clientsMatchingFiscalId` returned by ITM Platform co
 {
     "action": "restcall",
     "url": "@@ITMAPI@@/v2/@@AccountName@@/clients/",
-    "condition": "Convert.ToString(clientsMatchingFiscalId) == \"[]\"",
+    "condition": "Convert.ToInt32(clientsMatchingFiscalId.Count) == 0",
     "method": "POST",
     "token": "{{ loginInfo.Token }}",
     "description": "If clientsMatchingFiscalId.length ==  0, that means we need to create the company on ITM Platform for the first time",
@@ -135,7 +135,7 @@ Now we will have an object `clientsMatchingFiscalId` returned by ITM Platform co
 ``` 
 If there are zero clients, then we know we have no clients with that fiscal ID and we can create it from our previous
 
-We used `"condition": "Convert.ToString(clientsMatchingFiscalId) == \"[]\""` to verify that the array is empty.
+We used `"condition": "Convert.ToInt32(clientsMatchingFiscalId.Count) == 0",` to verify that the array is empty. `Count` will determine the length of the array
 
 If the conditions is met, the client is created in ITM Platform using the [POST client](https://developers.itmplatform.com/documentation/#clients-client-v2-post) endpoint.
 
@@ -146,7 +146,7 @@ Likewise, if the list of clients is not empty we need to update the existing cli
 {
     "action": "restcall",
     "url": "@@ITMAPI@@/v2/@@AccountName@@/clients/{{clientsMatchingFiscalId.0.ClientId}}",
-    "condition": "Convert.ToString(clientsMatchingFiscalId) != \"[]\"",
+    "condition": "Convert.ToInt32(clientsMatchingFiscalId.Count) > 0",
     "method": "PATCH",
     "token": "{{ loginInfo.Token }}",
     "description": "If clientsMatchingFiscalId.length >  0, that means that we just need to update it",

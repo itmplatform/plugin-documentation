@@ -94,6 +94,7 @@
 </ul></li>
 <li><a href="#plugin-script">Plugin script</a>
 <ul>
+<li><a href="#examples">Examples</a></li>
 <li><a href="#plugin-general-definition">Plugin General Definition</a></li>
 <li><a href="#features">Features</a>
 <ul>
@@ -129,10 +130,9 @@
 <li><a href="#deploying-a-plugin">Deploying a Plugin</a></li>
 <li><a href="#multi-language">Multi-language</a></li>
 <li><a href="#terminology">Terminology</a></li>
-<li><a href="#examples">Examples</a>
+<li><a href="#examples-1">Examples</a>
 <ul>
 <li><a href="#obtaining-the-itm-platform-authentication-token">Obtaining the ITM Platform authentication token</a></li>
-<li><a href="#aditional-examples">Aditional examples</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -185,13 +185,39 @@
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;mapping&quot;</span><span class="fu">:</span> <span class="ot">[]</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span></code></pre></div>
 <p><a name="general"></a></p>
+<h2 id="examples">Examples</h2>
+<p>All these examples include the code and a tutorial. It is recommended to start with the first and go into more complex examples as you understand the simpler ones.</p>
+<ul>
+<li><a href="https://github.com/itmplatform/plugin-documentation/tree/main/example-1">Example 1</a>. When a project updates, send a message to a static email address.
+<ul>
+<li>Event-based</li>
+<li>Minimal configuration: activation only</li>
+</ul></li>
+<li><a href="https://github.com/itmplatform/plugin-documentation/tree/main/example-2">Example 2</a>. When a purchase's actual value updates, send an email to a static address if the amount exceeds the purchase budget.
+<ul>
+<li>Event-based</li>
+<li>Using conditions</li>
+</ul></li>
+<li><a href="https://github.com/itmplatform/plugin-documentation/tree/main/example-3">Example 3</a>. Send a daily email to the project manager of a specific project containing all tasks whose end date is later than today.
+<ul>
+<li>Scheduler-based</li>
+<li>Loop and conditions</li>
+</ul></li>
+<li><a href="https://github.com/itmplatform/plugin-documentation/tree/main/example-4">Example 4</a>. Synchronize ITM Platform's clients with Hubspot's companies: only those having the Hubspot's property <code>sync_itm_platform</code> set to <code>true</code>.
+<ul>
+<li>Scheduler-based</li>
+<li>Connector to a third-party system</li>
+</ul></li>
+<li><a href="https://github.com/itmplatform/plugin-documentation/tree/main/example-5">Example 5</a>. Allow users to input revenue's Actual Amount if &lt;= Projected Amount.
+<ul>
+<li>Event-based, synchronous</li>
+</ul></li>
+</ul>
 <h2 id="plugin-general-definition">Plugin General Definition</h2>
 <p><i class="far fa-code" title="Learn by example"></i> <strong>Learn by example</strong></p>
-<!-- Example when available -->
-
 <div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;unique-name&quot;</span><span class="fu">,</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;svgString&quot;</span><span class="fu">:</span> <span class="er">&#39;&lt;svg</span> <span class="er">xmlns=</span><span class="st">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="er">viewBox=</span><span class="st">&quot;0 0 512 512&quot;</span><span class="er">&gt;&lt;path</span> <span class="er">d=</span><span class="st">&quot;M256 384C305.4 384 340.6 353.2 361.4 323.4C363.1 319.8 368.1 318.9 372.6 321.4C376.2 323.1 377.1 328.1 374.6 332.6C352.1 364.6 312.7 400 255.1 400C199.3 400 159.9 364.6 137.4 332.6C134.9 328.1 135.8 323.1 139.4 321.4C143 318.9 148 319.8 150.6 323.4C171.4 353.2 206.6 384 255.1 384H256zM192.4 208C192.4 216.8 185.2 224 176.4 224C167.5 224 160.4 216.8 160.4 208C160.4 199.2 167.5 192 176.4 192C185.2 192 192.4 199.2 192.4 208zM320.4 208C320.4 199.2 327.5 192 336.4 192C345.2 192 352.4 199.2 352.4 208C352.4 216.8 345.2 224 336.4 224C327.5 224 320.4 216.8 320.4 208zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 16C123.5 16 16 123.5 16 256C16 388.5 123.5 496 256 496C388.5 496 496 388.5 496 256C496 123.5 388.5 16 256 16z&quot;</span><span class="er">/&gt;&lt;/svg&gt;&#39;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;svgString&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; fill=&#39;#495d73&#39; viewBox=&#39;0 0 640 512&#39;&gt;&lt;path d=&#39;M640 256c0 35.35-21.49 64-48 64c-32.43 0-31.72-32-55.64-32C522.9 288 512 298.9 512 312.4V416c0 17.67-14.33 32-32 32h-103.6C362.9 448 352 437.1 352 423.6C352 399.1 384 400.4 384 368c0-26.51-28.65-48-64-48s-64 21.49-64 48c0 32.43 32 31.72 32 55.64C288 437.1 277.1 448 263.6 448H160c-17.67 0-32-14.33-32-32V312.4C128 298.9 117.1 288 103.6 288C79.95 288 80.4 320 48 320c-26.51 0-47.1-28.65-47.1-64S21.49 191.1 48 191.1c32.43 0 31.72 32 55.64 32C117.1 223.1 128 213.1 128 199.6V95.1C128 78.33 142.3 63.1 160 63.1l103.6 0C277.1 63.1 288 74.9 288 88.36C288 112 256 111.6 256 143.1C256 170.5 284.7 192 320 192s64-21.49 64-48c0-32.43-32-31.72-32-55.64c0-13.45 10.91-24.36 24.36-24.36L480 63.1c17.67 0 32 14.33 32 32v103.6c0 13.45 10.91 24.36 24.36 24.36c23.69 0 23.24-32 55.64-32C618.5 191.1 640 220.7 640 256z&#39;/&gt;&lt;/svg&gt;&quot;</span><span class="fu">,</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;details&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;en&quot;</span><span class="fu">:</span> <span class="st">&quot;My Plugin&quot;</span><span class="fu">,</span><span class="dt">&quot;es&quot;</span><span class="fu">:</span> <span class="st">&quot;Mi plugin&quot;</span><span class="fu">,</span><span class="dt">&quot;pt&quot;</span><span class="fu">:</span> <span class="st">&quot;Meu plugin&quot;</span><span class="fu">},</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;0.8&quot;</span><span class="fu">,</span></span>
@@ -204,8 +230,6 @@
 <p><i class="fad fa-book-open" title="Guide"></i> <strong>Guide</strong></p>
 <p>The general definition will provide basic information about the plugin you are building. The title, the short description, and the icon will appear on the plugin button within the plugin panel.</p>
 <p><i class="fad fa-brackets" title="Reference"></i> <strong>Reference</strong></p>
-<!-- Reference here -->
-
 <ul>
 <li><p><code>name</code>: It will be used as a identifier for the plugin and must be unique. It can't have spaces or special characters.</p></li>
 <li><p><code>svgString</code>: Inline SVG that will be used as the plugin icon.</p></li>
@@ -403,12 +427,8 @@
 <p><i class="fad fa-brackets" title="Reference"></i> <strong>Reference</strong></p>
 <ul>
 <li><code>action</code>: <code>validate</code></li>
-<li><code>validateCondition</code>:</li>
-</ul>
-<!-- TODO what kid of syntax -->
-
-<ul>
-<li><code>message</code>: String displayed to the final user in ITM Platform's interface.</li>
+<li><code>validateCondition</code>: It follows the same rules and syntax of <a href="https://github.com/itmplatform/plugin-documentation#action-conditionals">action conditionals</a></li>
+<li><code>message</code>: String displayed to the final user in the ITM Platform's interface in case the condition is not met.</li>
 </ul>
 <h4 id="action-email">"action": "email"</h4>
 <p>Sends an email to the given address/es</p>
@@ -559,8 +579,8 @@
 <span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span>
 <span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span></code></pre></div>
 <p><i class="fad fa-book-open" title="Guide"></i> <strong>Guide</strong></p>
-<p>These fields are represented by the <em>configuration options</em> within the <code>config</code> array, whose values will be stored and used within the plugin script.</p>
-<p>Once the user fills out the ITM Platform's "Plugin Configuration" tab, the values will be exposed through the <code>config</code> object, available to be used in <em>features</em> and <em>actions</em>.</p>
+<p>These fields are represented by the <em>configuration options</em> within the <code>config</code> array.</p>
+<p>Once the user fills out the ITM Platform's "Plugin Configuration" tab, the values will be available through the <code>config</code> object, available to be used in <em>features</em> and <em>actions</em>.</p>
 <p>These are some examples of the usage of the <code>config</code> object throughout a script:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;url&quot;:</span> <span class="er">&quot;</span><span class="fu">{</span><span class="er">{</span> <span class="er">config.url</span> <span class="fu">}</span><span class="er">}/rest/api/3/project/search?maxResults=50&amp;startAt=0&quot;</span></span></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="er">&quot;username&quot;:</span> <span class="er">&quot;</span><span class="fu">{</span><span class="er">{</span> <span class="er">config.user</span> <span class="fu">}</span><span class="er">}&quot;</span></span></code></pre></div>
@@ -753,56 +773,63 @@ Example, plugin is ITM-Jira, it will be true in external and false in internal. 
 <td>Task</td>
 <td>inserted</td>
 <td>When a task is inserted</td>
-<td><code>{{ { "accountId", accountId }, { "projectId", projectId }, { "JiraProjectId", JiraProjectId }, { "userId", userId }, { "task", new JObject() { { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId } } } }} </code></td>
+<td><code>{{ "accountId", accountId }, { "projectId", projectId },  { "userId", userId }, { "task": { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId }}} </code></td>
 </tr>
 <tr class="odd">
 <td>event</td>
 <td>Task</td>
 <td>updated</td>
 <td>When a task is updated</td>
-<td><code> { { { "accountId", accountId }, { "projectId", projectId }, { "JiraProjectId", JiraProjectId }, { "userId", userId }, { "task", new JObject() { { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId } } } } }</code></td>
+<td><code> {{ "accountId", accountId }, { "projectId", projectId },  { "userId", userId }, { "task": { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId }}}</code></td>
 </tr>
 <tr class="even">
 <td>event</td>
 <td>Project</td>
 <td>inserted</td>
 <td>When a project is created</td>
-<td><code> { { { "accountId", accountId }, { "userId", userId }, { "project", new JObject() { { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId }, { "JiraProjectId", JiraProjectId }, { "Description", description } } } } }</code></td>
+<td><code> {{ "accountId", accountId }, { "userId", userId }, { "project": { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId },  { "Description", description }}}</code></td>
 </tr>
 <tr class="odd">
 <td>event</td>
 <td>Project</td>
 <td>updated</td>
 <td>When a project is updated</td>
-<td><code>{ { { "accountId", accountId }, { "userId", userId }, { "project", new JObject() { { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId }, { "JiraProjectId", JiraProjectId }, { "Description", description } } } } }</code></td>
+<td><code>{{ "accountId", accountId }, { "userId", userId }, { "project": { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId },  { "Description", description }}}</code></td>
 </tr>
 <tr class="even">
+<td>event</td>
+<td>Purchase</td>
+<td>updated</td>
+<td>When a Purchase is update</td>
+<td><code>{{ "accountId", accountId }, { "projectId", projectId }, { "userId", userId }, { "purchase": {{ "Id", purchase.Id }, { "Name", purchase.Name }, { "ActualAmount", purchase.ActualAmount.BaseAmount }, { "ProjectedAmount", purchase.ProjectedAmount.BaseAmount } } } }</code></td>
+</tr>
+<tr class="odd">
 <td>event</td>
 <td>Revenue</td>
 <td>pre insert</td>
 <td>When a Revenue is going to be created</td>
-<td><code>{ { { "ProjectedAmount", projectedAmount }, { "ProjectId", projectId }, { "UserToken", userToken }, } }</code></td>
-</tr>
-<tr class="odd">
-<td>event</td>
-<td>Revenue</td>
-<td>inserted</td>
-<td>When a Revenue is created</td>
-<td><code>{{ { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId } } }</code></td>
+<td><code>{{ "ProjectedAmount", projectedAmount }, { "ProjectId", projectId }, { "UserToken", userToken }, }</code></td>
 </tr>
 <tr class="even">
 <td>event</td>
 <td>Revenue</td>
-<td>pre update</td>
-<td>When a Revenue is going to be updated</td>
-<td><code>{ { { "ProjectedAmount", projectedAmount }, { "OldProjectAmount", oldProjectAmount }, { "ProjectId", projectId }, { "UserToken", userToken }, } }</code></td>
+<td>inserted</td>
+<td>When a Revenue is created</td>
+<td><code>{{ "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId }}</code></td>
 </tr>
 <tr class="odd">
 <td>event</td>
 <td>Revenue</td>
+<td>pre update</td>
+<td>When a Revenue is going to be updated</td>
+<td><code>{{ "ProjectedAmount", projectedAmount }, { "OldProjectAmount", oldProjectAmount }, { "ProjectId", projectId }, { "UserToken", userToken }}</code></td>
+</tr>
+<tr class="even">
+<td>event</td>
+<td>Revenue</td>
 <td>updated</td>
 <td>When a Revenue is updated</td>
-<td><code>{ { { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId } } }</code></td>
+<td><code>{{ "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId }}</code></td>
 </tr>
 </tbody>
 </table>
@@ -909,16 +936,23 @@ This is not clear.
 <!-- wht? -->
 
 <h2 id="type-modifiers">Type modifiers</h2>
-<p><i class="far fa-code" title="Learn by example"></i> <strong>Learn by example</strong></p>
+<p>To compare or operate with values, you need to specify the type of value. <i class="far fa-code" title="Learn by example"></i> <strong>Learn by example</strong></p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&quot;condition&quot;</span><span class="fu">:</span> <span class="st">&quot;Convert.ToInt32(taskdetails.total) &gt; 0 &amp;&amp; Convert.ToInt32(taskdetails.list.First.KindId) == 3&quot;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&quot;condition&quot;</span><span class="fu">:</span> <span class="st">&quot;Convert.ToInt32(taskdetails.total) &gt; 0 &amp;&amp; Convert.ToInt32(taskdetails.list.0.KindId) == 3&quot;</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <p><i class="fad fa-book-open" title="Guide"></i> <strong>Guide</strong></p>
-<p>To perform logical operations, you need to use different type modifiers:</p>
+<p>To perform logical operations, you need to specify the type of value. The script interpreter will throw an error otherwise:</p>
+<p>There are the data converions you can use</p>
 <ul>
-<li>Convert.ToInt32()</li>
-<li>Convert.ToString()</li>
-<li>. . . any others?</li>
+<li><code>Convert.ToBoolean()</code>: Converts a specified value to an equivalent Boolean value.</li>
+<li><code>Convert.ToDateTime()</code>: Converts a specified value to a <a href="https://docs.microsoft.com/en-us/dotnet/api/system.datetime?view=net-6.0">DateTime</a> value.</li>
+<li><code>Convert.ToDecimal ()</code>: Converts a specified value to a decimal number.</li>
+<li><code>Convert.ToDouble()</code>: Converts a specified value to a double-precision floating-point number.</li>
+<li><code>Convert.ToInt16()</code>:Converts a specified value to a 16-bit signed integer.</li>
+<li><code>Convert.ToInt32()</code>:Converts a specified value to a 32-bit signed integer.</li>
+<li><code>Convert.ToInt64()</code>:Converts a specified value to a 64-bit signed integer.</li>
+<li><code>Convert.ToSingle()</code>: Converts a specified value to a single-precision floating-point number.</li>
+<li><code>Convert.ToString()</code>: Converts the specified value to its equivalent string representation.</li>
 </ul>
 <h4 id="url">URL</h4>
 <p><i class="far fa-code" title="Learn by example"></i> <strong>Learn by example</strong></p>
@@ -939,8 +973,8 @@ This is not clear.
 <p><i class="fad fa-brackets" title="Reference"></i> <strong>Reference</strong></p>
 <ul>
 <li><code>@@AccountId@@</code> : The account Id, such as <code>18137</code></li>
-<li><code>@@AccountName@</code>@ : The account name as it appears in the URL. For example <code>my-company</code></li>
-<li><code>@@LanguageId@@</code> : The user's language code. <code>2</code></li>
+<li><code>@@AccountName@@</code> : The account name as it appears in the URL. For example <code>my-company</code></li>
+<li><code>@@LanguageId@@</code> : The user's language code, as follows: en: <code>1</code>, es: <code>2</code>, pt:<code>3</code></li>
 </ul>
 <!-- What is the language code -->
 
@@ -985,7 +1019,7 @@ If we are not serving these, then we must provide a way for users to request the
 <li><strong>Plugin Features:</strong> Set of related actions that will be initiated upon a trigger.</li>
 <li><strong>Actions:</strong> Pieces of code executed to implement a feature, typically chained to one another.</li>
 </ul>
-<h1 id="examples">Examples</h1>
+<h1 id="examples-1">Examples</h1>
 <h2 id="obtaining-the-itm-platform-authentication-token">Obtaining the ITM Platform authentication token</h2>
 <div class="sourceCode" id="cb27"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;actions&quot;</span><span class="fu">:</span><span class="ot">[</span><span class="fu">{</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;action&quot;</span><span class="fu">:</span> <span class="st">&quot;restcall&quot;</span><span class="fu">,</span></span>
@@ -1014,31 +1048,5 @@ If we are not serving these, then we must provide a way for users to request the
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;Result&quot;</span><span class="fu">:</span> <span class="st">&quot;1&quot;</span><span class="fu">,</span></span>
 <span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;ResultStatus&quot;</span><span class="fu">:</span> <span class="st">&quot;Success&quot;</span></span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
-<h2 id="aditional-examples">Aditional examples</h2>
-<ul>
-<li><a href="https://github.com/itmplatform/plugin-documentation/example-1">Example 1</a>. When a project updates, send a message to a static email address.
-<ul>
-<li>Event-based</li>
-<li>Minimal configuration: activation only</li>
-</ul></li>
-<li><a href="https://github.com/itmplatform/plugin-documentation/example-2">Example 2</a>. When a purchase's actual value updates, send an email to a static address if the amount exceeds the purchase budget.
-<ul>
-<li>Event-based</li>
-</ul></li>
-<li><a href="https://github.com/itmplatform/plugin-documentation/example-3">Example 3</a>. Send a daily email to the project manager of a specific project containing all tasks whose end date is later than today.
-<ul>
-<li>Scheduler-based</li>
-<li>Loop and conditions</li>
-</ul></li>
-<li><a href="https://github.com/itmplatform/plugin-documentation/example-4">Example 4</a>Synchronize ITM Platform's clients with Hubspot's companies: only those having the Hubspot's property <code>sync_itm_platform</code> set to <code>true</code>.
-<ul>
-<li>Scheduler-based</li>
-<li>Connector to a third-party system</li>
-</ul></li>
-<li><a href="https://github.com/itmplatform/plugin-documentation/example-5">Example 5</a>Allow users to input revenue's Actual Amount if &lt;= Projected Amount.
-<ul>
-<li>Event-based, synchronous</li>
-</ul></li>
-</ul>
 </body>
 </html>
