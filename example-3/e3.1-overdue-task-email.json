@@ -43,7 +43,7 @@
                     "url": "@@ITMAPI@@/v2/@@AccountName@@/Projects/{{ config.projectId }}/Tasks/search",
                     "method": "POST",
                     "description": "Get all tasks from project",
-                    "payload": "{\"Columns\": { \"$in\": [ \"Id\", \"ProjectId\", \"Name\", \"EndDate\", \"Team.Managers\" ] }, \"filter\": { \"EndDate\": { \"$gte\": \"{{ DateTime.Now \"yyyy-MM-dd\" }}\" } } }",
+                    "payload": "{\"Columns\": { \"$in\": [ \"Id\", \"ProjectId\", \"Name\", \"EndDate\", \"Team.Managers\" ] }, \"filter\": { \"EndDate\": { \"$lte\": \"{{ DateTime.Now \"yyyy-MM-dd\" }}\" } } }",
                     "output": "tasks",
                     "dataType": "application/json",
                     "token": "{{ logininfo.Token }}"
