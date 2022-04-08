@@ -177,7 +177,7 @@ Actions admit [loops](#loops) and [conditionals](#conditionals).
 - `description`: For developers
 - `output`: <a href="#output-object">output object</a> used in further actins as the `input` object <!-- reference. -->
 - `payload`: body of the request. It supports [templates](#template-syntax), used to replace text with variable content.
-- `dataType`: is optional, and it will parse the result as JSON so it can be sent to any next step. When absent, the result will be a string.
+- `dataType`: Optional. It will parse the result as JSON or XML. Possible values are `application/json` and `application/xml`. When omitted, the result will be a string.
 
 
 #### Checkpoints
