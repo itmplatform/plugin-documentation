@@ -24,8 +24,8 @@
 				{
 					"action": "email",
 					"to": "your.friend@itmplatform.com",
-					"subject": "Project updated: {{input.project.Name}}",
-					"body": "<html><h2>Project update notification</h2><p>{{input.project.Name}} was updated!</p></html>"
+					"subject": "Project updated: \"{{input.project.Name}}\"",
+					"body": "<html><h2>Project update notification</h2><p>The project \"{{input.project.Name}}\" was updated!</p></html>"
 				}
 			]
 		}
