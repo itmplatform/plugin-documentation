@@ -669,7 +669,9 @@ Provides the configuration option for the user to set the frequency at which the
 ```
 
 <i class="fad fa-book-open" title="Guide"></i> **Guide**
-It will display in the "Configuration" tab a user input to introduce the synchronization frequency in minutes for the scheduler.
+It will display in the "Configuration" tab a user input to introduce the synchronization frequency in minutes for the scheduler. 
+
+The minimum frequency is 60 minutes. We recommend setting the frequency at the maximum your business case accepts.
 
 It will apply to the feature(s) that have the `scheduler` trigger.
 
