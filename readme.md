@@ -159,6 +159,7 @@ When the feature is triggered by the scheduler, you must create the [synchroniza
 		"description": "Retrieve project",
 		"output": "project",
 		"payload": "",
+        "headers": "{\"token\" : \"{{ logininfo.Token }}\", \"myheader\" : \"header value\"}"
 		"dataType": "application/json"
 	}
 ```
@@ -170,13 +171,14 @@ Actions are pieces of code executed when a feature is triggered. Actions are typ
 Actions admit [loops](#loops) and [conditionals](#conditionals).
 
 <i class="fad fa-brackets" title="Reference"></i> **Reference**
-<!-- We need to have a full list of available fields; some are not documented, like 'token' -->
 
 - `action`:  specifies the action type from the different [action types]().
 - `token`: Used to call the ITM Platform API <!--reference-->
 - `description`: For developers
 - `output`: <a href="#output-object">output object</a> used in further actins as the `input` object <!-- reference. -->
 - `payload`: body of the request. It supports [templates](#template-syntax), used to replace text with variable content.
+- `headers`: Optional. Valid for `restcall` only. You can pass additional required headers to the rest call
+- `token`: Optional. Valid to call ITM Platform's api. Shortcut to adding it as a header, like so: `"headers": "{\"token\" : \"{{ logininfo.Token }}\"}"`
 - `dataType`: Optional. It will parse the result as JSON or XML. Possible values are `application/json` and `application/xml`. When omitted, the result will be a string.
 
 
