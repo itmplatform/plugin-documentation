@@ -770,8 +770,7 @@ The following are the events that ITM Platform triggers.
 |event|Revenue|inserted|When a Revenue is created| ``` { { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "ActualAmount", actualAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", UserId }, { "AccountId", AccountId } } ```|
 |event|Revenue|pre update|When a Revenue is going to be updated| ``` { { "ProjectedAmount", projectedAmount }, { "ActualAmount", actualAmount }, { "ProjectId", projectId } } ```|
 |event|Revenue|updated|When a Revenue is updated| ``` { { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "ActualAmount", actualAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", UserId }, { "AccountId", AccountId } } ```|
-|event|HourDistribution|updated|When hour distribution is update| ``` { { "accountId", AccountId }, { "projectId", ProjectId }, { "userId", UserId }, { "taskIds", string.Join(", ", taskIds) } } ```|
-|event|PurchaseRevenueDates|updated|When purchase / revenue due date is updated | ``` { { "accountId", AccountId }, { "projectId", ProjectId }, { "userId", UserId }, { "taskIds", string.Join(", ", taskIds) } } ```|
+
 
 ## Event bubbling up
 Events don't bubble up how you may be used in other environments. But if an entity event affects others, such as its parents, these parents will also trigger an event.
