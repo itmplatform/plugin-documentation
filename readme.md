@@ -14,7 +14,7 @@ The <a href="#terminology">terminology</a> section will help you with the most c
 
 ## Basic concepts
 
-- You can access the plugin section in ITM Platform on the CONFIGURATION <i class="fa-solid fa-caret-right"></i> OTHER SETTINGS menu. 
+- You can access the plugin section in ITM Platform on the CONFIGURATION <i class="fa-solid fa-caret-right"></i> CUSTOMIZATION menu. 
 - You need a Full Access license to operate on existing global plugins and edit or create existing ones. 
 - You can create and edit your own plugins in the "plugin editor" section, which will give you access to the plugin script. Notice that you can't edit global plugins.
 - A plugin script is a JSON file that follows a structure of instructions that will perform the functionality you need.
