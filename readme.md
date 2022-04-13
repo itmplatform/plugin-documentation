@@ -908,7 +908,7 @@ You can use any url, for example `http://www.randomnumberapi.com/api/v1.0/random
 
 <a name="variables"></a>
 
-#### Variables
+### Template Variables
 
 <i class="far fa-code" title="Learn by example"></i> **Learn by example**
 
