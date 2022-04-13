@@ -106,7 +106,7 @@ As described in the [plugin configuration](https://github.com/itmplatform/plugin
 			"name": "isactive",
 			"label": {
 				"en": "Activate plugin",
-				"es": "Activar plugin",
+				"es": "Activar extensión",
 				"pt": "Ativar o plugin"
 			},
 			"tooltip": {

@@ -1,7 +1,7 @@
 <!-- Uncomment the line below before converting this file to HTML -->
-<!-- <script src="https://kit.fontawesome.com/81ab11011e.js" crossorigin="anonymous"></script> -->
+<script src="https://kit.fontawesome.com/81ab11011e.js" crossorigin="anonymous"></script>
 <!-- Comment the line below before converting this file to HTML-->
-<a href="https://developers.itmplatform.com/plugin-docs/" target> HTML version of this document.</a>
+<!-- <a href="https://developers.itmplatform.com/plugin-docs/" target> HTML version of this document.</a> -->
 
 # Overview
 Plugins are extensions that add a specific feature to ITM Platform. They can be used to extend functionality or as a connector between ITM Platform and a third-party system.
@@ -890,48 +890,50 @@ There are the data converions you can use
 - `Convert.ToString()`: Converts the specified value to its equivalent string representation.
 
 
-#### URL
 
-<i class="far fa-code" title="Learn by example"></i> **Learn by example**
-
-```json
-{
-"url": "@@ITMAPI@@/mycompanylogin/{{ config.apikey }}",
-}
-```
-
-<i class="fad fa-book-open" title="Guide"></i> **Guide** 
-
-In the example above, we a <a href="#variables">varible</a> to call ITM Platform's login endpoint. The outcome of this case will be this: `https://api.itmplatform.com/my-company/login/86d4bb2a-2129-40f5-8311-918c6da16823`
-
-You can use any url, for example `http://www.randomnumberapi.com/api/v1.0/random?min=100&max=1000&count=5`
 
 <a name="variables"></a>
 
-### Template Variables
+# Script Variables
 
 <i class="far fa-code" title="Learn by example"></i> **Learn by example**
 
 ```json
 {
-    "url": "@@ITMAPI@@/my-company/login/{{ config.apikey }}",
+    "url": "@@ITMAPI@@/my-company/projects/",
 }
 ```
 
 <i class="fad fa-book-open" title="Guide"></i> **Guide** 
 
-The plugin interpreter provides you with variables that you can use. In the example above, we used `@@ITMAPI@@` to call ITM Platform's login endpoint. The outcome of this case would be: `https://api.itmplatform.com/my-company/login/86d4bb2a-2129-40f5-8311-918c6da16823`
+The plugin interpreter provides you with variables that you can use. In the example above, we used `@@ITMAPI@@` to call ITM Platform's login endpoint. The outcome of this case would be: `https://api.itmplatform.com/my-company/projects`
 
 <i class="fad fa-brackets" title="Reference"></i> **Reference**
 
 - `@@AccountId@@` : The account Id, such as `18137`
 - `@@AccountName@@` : The account name as it appears in the URL. For example `my-company`
 - `@@LanguageId@@` :  The user's language code, as follows: en: `1`, es: `2`, pt:`3`
-<!-- What is the language code -->
 - `@@ITMAPI@@` : The host part of the URL. `https://api.itmplatform.com/`
 <!-- - @@TaskMS@@
-- @@AccountMS@@ 
-If we are not serving these, then we must provide a way for users to request the API Key, and make a first call to the login method, store the token, then use it-->
+- @@AccountMS@@ -->
+
+## URL
+
+Let's take the URL as an example.
+
+<i class="far fa-code" title="Learn by example"></i> **Learn by example**
+
+```json
+{
+"url": "@@ITMAPI@@/@@AccountName@@/login/{{ config.apikey }}",
+}
+```
+
+<i class="fad fa-book-open" title="Guide"></i> **Guide** 
+
+
+
+In the example above, we are using @@<a href="#variables">variables</a>@@ and {{ <a href="#template-syntax">template syntax</a> }} to call ITM Platform's login endpoint. The outcome in this case will be this: `https://api.itmplatform.com/my-company/login/86d4bb2a-2129-40f5-8311-918c6da16823`
 
 
 # Debugging

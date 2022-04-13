@@ -126,6 +126,10 @@
 <li><a href="#accessing-array-of-items">Accessing array of items</a></li>
 <li><a href="#type-modifiers">Type modifiers</a></li>
 </ul></li>
+<li><a href="#script-variables">Script Variables</a>
+<ul>
+<li><a href="#url">URL</a></li>
+</ul></li>
 <li><a href="#debugging">Debugging</a></li>
 <li><a href="#deploying-a-plugin">Deploying a Plugin</a></li>
 <li><a href="#multi-language">Multi-language</a></li>
@@ -151,7 +155,7 @@
 <p>The <a href="#terminology">terminology</a> section will help you with the most commonly used terms.</p>
 <h2 id="basic-concepts">Basic concepts</h2>
 <ul>
-<li>You can access the plugin section in ITM Platform on the CONFIGURATION <i class="fa-solid fa-caret-right"></i> OTHER SETTINGS menu.</li>
+<li>You can access the plugin section in ITM Platform on the CONFIGURATION <i class="fa-solid fa-caret-right"></i> CUSTOMIZATION menu.</li>
 <li>You need a Full Access license to operate on existing global plugins and edit or create existing ones.</li>
 <li>You can create and edit your own plugins in the "plugin editor" section, which will give you access to the plugin script. Notice that you can't edit global plugins.</li>
 <li>A plugin script is a JSON file that follows a structure of instructions that will perform the functionality you need.</li>
@@ -291,21 +295,22 @@
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;Retrieve project&quot;</span><span class="fu">,</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;output&quot;</span><span class="fu">:</span> <span class="st">&quot;project&quot;</span><span class="fu">,</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;payload&quot;</span><span class="fu">:</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;dataType&quot;</span><span class="fu">:</span> <span class="st">&quot;application/json&quot;</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span></code></pre></div>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;headers&quot;</span><span class="fu">:</span> <span class="st">&quot;{</span><span class="ch">\&quot;</span><span class="st">token</span><span class="ch">\&quot;</span><span class="st"> : </span><span class="ch">\&quot;</span><span class="st">{{ logininfo.Token }}</span><span class="ch">\&quot;</span><span class="st">, </span><span class="ch">\&quot;</span><span class="st">myheader</span><span class="ch">\&quot;</span><span class="st"> : </span><span class="ch">\&quot;</span><span class="st">header value</span><span class="ch">\&quot;</span><span class="st">}&quot;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;dataType&quot;</span><span class="er">:</span> <span class="st">&quot;application/json&quot;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span></code></pre></div>
 <p><i class="fad fa-book-open" title="Guide"></i> <strong>Guide</strong></p>
 <p>Actions are pieces of code executed when a feature is triggered. Actions are typically chained to one another by sending the <code>output</code> value from the parent action to the child action.</p>
 <p>Actions admit <a href="#loops">loops</a> and <a href="#conditionals">conditionals</a>.</p>
 <p><i class="fad fa-brackets" title="Reference"></i> <strong>Reference</strong></p>
-<!-- We need to have a full list of available fields; some are not documented, like 'token' -->
-
 <ul>
 <li><code>action</code>: specifies the action type from the different <a href="">action types</a>.</li>
 <li><code>token</code>: Used to call the ITM Platform API <!--reference--></li>
 <li><code>description</code>: For developers</li>
 <li><code>output</code>: <a href="#output-object">output object</a> used in further actins as the <code>input</code> object <!-- reference. --></li>
 <li><code>payload</code>: body of the request. It supports <a href="#template-syntax">templates</a>, used to replace text with variable content.</li>
-<li><code>dataType</code>: is optional, and it will parse the result as JSON so it can be sent to any next step. When absent, the result will be a string.</li>
+<li><code>headers</code>: Optional. Valid for <code>restcall</code> only. You can pass additional required headers to the rest call</li>
+<li><code>token</code>: Optional. Valid to call ITM Platform's api. Shortcut to adding it as a header, like so: <code>"headers": "{\"token\" : \"{{ logininfo.Token }}\"}"</code></li>
+<li><code>dataType</code>: Optional. It will parse the result as JSON or XML. Possible values are <code>application/json</code> and <code>application/xml</code>. When omitted, the result will be a string.</li>
 </ul>
 <h4 id="checkpoints-2">Checkpoints</h4>
 <p>When saving a plugin, the following validations will run. If the script doesn't pass them, you will be able to save it but not activate the plugin.</p>
@@ -667,6 +672,7 @@ But it is not clear how to use them -->
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <p><i class="fad fa-book-open" title="Guide"></i> <strong>Guide</strong> It will display in the "Configuration" tab a user input to introduce the synchronization frequency in minutes for the scheduler.</p>
+<p>The minimum frequency is 60 minutes. We recommend setting the frequency at the maximum your business case accepts.</p>
 <p>It will apply to the feature(s) that have the <code>scheduler</code> trigger.</p>
 <p><i class="fad fa-brackets" title="Reference"></i> <strong>Reference</strong></p>
 <p>Properties with special considerations:</p>
@@ -773,63 +779,63 @@ Example, plugin is ITM-Jira, it will be true in external and false in internal. 
 <td>Task</td>
 <td>inserted</td>
 <td>When a task is inserted</td>
-<td><code>{{ "accountId", accountId }, { "projectId", projectId },  { "userId", userId }, { "task": { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId }}} </code></td>
+<td><code>{ { "accountId", accountId }, { "projectId", projectId },  { "userId", userId }, { "task": { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId }}}</code></td>
 </tr>
 <tr class="odd">
 <td>event</td>
 <td>Task</td>
 <td>updated</td>
 <td>When a task is updated</td>
-<td><code> {{ "accountId", accountId }, { "projectId", projectId },  { "userId", userId }, { "task": { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId }}}</code></td>
+<td><code> { { "accountId", accountId }, { "projectId", projectId },  { "userId", userId }, { "task": { "Id", taskId }, { "Name", taskName }, { "JiraTaskId", JiraTaskId }, { "KindId", taskKindId }}}</code></td>
 </tr>
 <tr class="even">
 <td>event</td>
 <td>Project</td>
 <td>inserted</td>
 <td>When a project is created</td>
-<td><code> {{ "accountId", accountId }, { "userId", userId }, { "project": { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId },  { "Description", description }}}</code></td>
+<td><code> { { "accountId", accountId }, { "userId", userId }, { "project": { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId },  { "Description", description }}}</code></td>
 </tr>
 <tr class="odd">
 <td>event</td>
 <td>Project</td>
 <td>updated</td>
 <td>When a project is updated</td>
-<td><code>{{ "accountId", accountId }, { "userId", userId }, { "project": { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId },  { "Description", description }}}</code></td>
+<td><code>{ { "accountId", accountId }, { "userId", userId }, { "project": { "Id", projectId }, { "Name", projectName }, { "TypeId", typeId },  { "Description", description }}}</code></td>
 </tr>
 <tr class="even">
 <td>event</td>
 <td>Purchase</td>
 <td>updated</td>
 <td>When a Purchase is update</td>
-<td><code>{{ "accountId", accountId }, { "projectId", projectId }, { "userId", userId }, { "purchase": {{ "Id", purchase.Id }, { "Name", purchase.Name }, { "ActualAmount", purchase.ActualAmount.BaseAmount }, { "ProjectedAmount", purchase.ProjectedAmount.BaseAmount } } } }</code></td>
+<td><code> { { "accountId", accountId }, { "projectId", projectId }, { "userId", userId }, { "purchase", new JObject() { { "Id", purchaseId }, { "Name", purchaseName }, { "ActualAmount", actualAmount }, { "ProjectedAmount", projectedAmount } } } }</code></td>
 </tr>
 <tr class="odd">
 <td>event</td>
 <td>Revenue</td>
 <td>pre insert</td>
 <td>When a Revenue is going to be created</td>
-<td><code>{{ "ProjectedAmount", projectedAmount }, { "ProjectId", projectId }, { "UserToken", userToken }, }</code></td>
+<td><code>{ { "ProjectedAmount", projectedAmount }, { "ActualAmount", actualAmount }, { "ProjectId", projectId } }</code></td>
 </tr>
 <tr class="even">
 <td>event</td>
 <td>Revenue</td>
 <td>inserted</td>
 <td>When a Revenue is created</td>
-<td><code>{{ "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId }}</code></td>
+<td><code>{ { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "ActualAmount", actualAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", UserId }, { "AccountId", AccountId } }</code></td>
 </tr>
 <tr class="odd">
 <td>event</td>
 <td>Revenue</td>
 <td>pre update</td>
 <td>When a Revenue is going to be updated</td>
-<td><code>{{ "ProjectedAmount", projectedAmount }, { "OldProjectAmount", oldProjectAmount }, { "ProjectId", projectId }, { "UserToken", userToken }}</code></td>
+<td><code>{ { "ProjectedAmount", projectedAmount }, { "ActualAmount", actualAmount }, { "ProjectId", projectId } }</code></td>
 </tr>
 <tr class="even">
 <td>event</td>
 <td>Revenue</td>
 <td>updated</td>
 <td>When a Revenue is updated</td>
-<td><code>{{ "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", userId }, { "AccountId", accountId }}</code></td>
+<td><code>{ { "Id", revenueId }, { "Name", revenueName }, { "DueDate", dueDate }, { "ProjectedAmount", projectedAmount }, { "ActualAmount", actualAmount }, { "Status", statusId }, { "ProjectId", projectId }, { "UserId", UserId }, { "AccountId", AccountId } }</code></td>
 </tr>
 </tbody>
 </table>
@@ -954,37 +960,32 @@ This is not clear.
 <li><code>Convert.ToSingle()</code>: Converts a specified value to a single-precision floating-point number.</li>
 <li><code>Convert.ToString()</code>: Converts the specified value to its equivalent string representation.</li>
 </ul>
-<h4 id="url">URL</h4>
+<p><a name="variables"></a></p>
+<h1 id="script-variables">Script Variables</h1>
 <p><i class="far fa-code" title="Learn by example"></i> <strong>Learn by example</strong></p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;@@ITMAPI@@/mycompanylogin/{{ config.apikey }}&quot;</span><span class="fu">,</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;@@ITMAPI@@/my-company/projects/&quot;</span><span class="fu">,</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <p><i class="fad fa-book-open" title="Guide"></i> <strong>Guide</strong></p>
-<p>In the example above, we a <a href="#variables">varible</a> to call ITM Platform's login endpoint. The outcome of this case will be this: <code>https://api.itmplatform.com/my-company/login/86d4bb2a-2129-40f5-8311-918c6da16823</code></p>
-<p>You can use any url, for example <code>http://www.randomnumberapi.com/api/v1.0/random?min=100&amp;max=1000&amp;count=5</code></p>
-<p><a name="variables"></a></p>
-<h4 id="variables">Variables</h4>
-<p><i class="far fa-code" title="Learn by example"></i> <strong>Learn by example</strong></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;@@ITMAPI@@/my-company/login/{{ config.apikey }}&quot;</span><span class="fu">,</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
-<p><i class="fad fa-book-open" title="Guide"></i> <strong>Guide</strong></p>
-<p>The plugin interpreter provides you with variables that you can use. In the example above, we used <code>@@ITMAPI@@</code> to call ITM Platform's login endpoint. The outcome of this case would be: <code>https://api.itmplatform.com/my-company/login/86d4bb2a-2129-40f5-8311-918c6da16823</code></p>
+<p>The plugin interpreter provides you with variables that you can use. In the example above, we used <code>@@ITMAPI@@</code> to call ITM Platform's login endpoint. The outcome of this case would be: <code>https://api.itmplatform.com/my-company/projects</code></p>
 <p><i class="fad fa-brackets" title="Reference"></i> <strong>Reference</strong></p>
 <ul>
 <li><code>@@AccountId@@</code> : The account Id, such as <code>18137</code></li>
 <li><code>@@AccountName@@</code> : The account name as it appears in the URL. For example <code>my-company</code></li>
 <li><code>@@LanguageId@@</code> : The user's language code, as follows: en: <code>1</code>, es: <code>2</code>, pt:<code>3</code></li>
-</ul>
-<!-- What is the language code -->
-
-<ul>
 <li><code>@@ITMAPI@@</code> : The host part of the URL. <code>https://api.itmplatform.com/</code></li>
 </ul>
 <!-- - @@TaskMS@@
-- @@AccountMS@@ 
-If we are not serving these, then we must provide a way for users to request the API KEy, and make a first call to the login method, store the token, then use it-->
+- @@AccountMS@@ -->
 
+<h2 id="url">URL</h2>
+<p>Let's take the URL as an example.</p>
+<p><i class="far fa-code" title="Learn by example"></i> <strong>Learn by example</strong></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;@@ITMAPI@@/@@AccountName@@/login/{{ config.apikey }}&quot;</span><span class="fu">,</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><i class="fad fa-book-open" title="Guide"></i> <strong>Guide</strong></p>
+<p>In the example above, we are using @@<a href="#variables">variables</a>@@ and {{ <a href="#template-syntax">template syntax</a> }} to call ITM Platform's login endpoint. The outcome in this case will be this: <code>https://api.itmplatform.com/my-company/login/86d4bb2a-2129-40f5-8311-918c6da16823</code></p>
 <h1 id="debugging">Debugging</h1>
 <p>To debug a plugin, you need to look in the logs to know what happened during its execution. Because the script gets interpreted in ITM Platform's servers, there is no "run and debug" action as you may be used to in other languages.</p>
 <p>When a plugin is triggered, either by the scheduler or an event, two different types of logs are fed.</p>
